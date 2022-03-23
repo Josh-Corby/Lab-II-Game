@@ -15,6 +15,9 @@ public class PlayerManager : NetworkBehaviour
 
     List<GameObject> cards = new List<GameObject>();
 
+    [SyncVar]
+    int cardsPlayed = 0;
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -47,6 +50,8 @@ public class PlayerManager : NetworkBehaviour
     public void PlayCard(GameObject card)
     {
         CmdPlayCard(card);
+        cardsPlayed++;
+        Debug.Log(cardsPlayed);
 
     }
 
@@ -68,11 +73,16 @@ public class PlayerManager : NetworkBehaviour
             else
             {
                 card.transform.SetParent(EnemyArea.transform, false);
+                card.GetComponent<CardFlipper>().Flip();
             }
         }
         else if (type == "Played")
         {
             card.transform.SetParent(DropZone.transform, false);
+            if (!hasAuthority)
+            {
+                card.GetComponent<CardFlipper>().Flip();
+            }
         }
     }
 }

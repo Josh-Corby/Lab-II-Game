@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -748084690886650597}
   - component: {fileID: 6059876342490111350}
   - component: {fileID: 8128749604796692263}
+  - component: {fileID: 7050591366672877050}
   - component: {fileID: 1963897034859891424}
   - component: {fileID: -2502696659523742545}
   m_Layer: 6
@@ -72,7 +73,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 7a3fbcdf583cde84984468221a61e470, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -212,7 +213,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36674f1709d76ac409b39e64db3284a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  DropZone: {fileID: 0}
   Canvas: {fileID: 0}
+  PlayerManager: {fileID: 0}
 --- !u!114 &8128749604796692263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,6 +231,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 0}
+--- !u!114 &7050591366672877050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6123980211332133966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c617c714a4c48554e8095d21e69510ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardFront: {fileID: 21300000, guid: 7a3fbcdf583cde84984468221a61e470, type: 3}
+  cardBack: {fileID: 21300000, guid: 7378a8167deee024b932eb01ea3d4555, type: 3}
 --- !u!114 &1963897034859891424
 MonoBehaviour:
   m_ObjectHideFlags: 0
