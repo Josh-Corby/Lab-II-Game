@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class DragDrop : NetworkBehaviour
+public class DragDrop2D : NetworkBehaviour
 {
 
     public GameObject DropZone;
@@ -54,7 +54,7 @@ public class DragDrop : NetworkBehaviour
             isDraggable = false;
             NetworkIdentity networkIdentity = NetworkClient.connection.identity;
             PlayerManager = networkIdentity.GetComponent<PlayerManager>();
-            PlayerManager.PlayCard(gameObject);
+            //PlayerManager.PlayCard(gameObject);
         }
         else
         {
