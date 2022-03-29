@@ -1,23 +1,39 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class DraggableObject : GameBehaviour
+public class DraggableObject : NetworkBehaviour
 {
+    public PlayerManager playerManager;
     private Rigidbody rigidbody;
-    private float startYPos;
     private BoardController board;
-    public bool canDrag;
+    public PlayerCardSpot playerCardSpot;
+
+    public bool canDrag = true;
+    private float startYPos;
+    
+    
+    
 
     void Start()
     {
+        canDrag = true;
+        playerCardSpot = GameObject.Find("PlayerCardSpot").GetComponent<PlayerCardSpot>();
         board = GetComponentInParent<BoardController>();
         rigidbody = GetComponent<Rigidbody>();
         startYPos = 0; // Better to not hardcode that one but whatever
-        canDrag = true;
+
+        if (!hasAuthority)
+        {
+            canDrag = false;
+        }
+        else return;
     }
 
     private void OnMouseDrag()
     {
-        if (canDrag == true && _PCS.isOccupied == false)
+        if (canDrag == true && playerCardSpot.isOccupied == false)
         {
             Vector3 newWorldPosition = new Vector3(board.CurrentMousePosition.x, startYPos + 1, board.CurrentMousePosition.z);
 
@@ -35,9 +51,12 @@ public class DraggableObject : GameBehaviour
         if (collision.gameObject.name == "PlayerDropZone")
         {
             Debug.Log("Card dropped");
-            gameObject.transform.position = _PCS.transform.position;
+            gameObject.transform.position = playerCardSpot.transform.position;
             canDrag = false;
-            _PCS.isOccupied = true;
+            playerCardSpot.isOccupied = true;
+            NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+            playerManager = networkIdentity.GetComponent<PlayerManager>();
+            playerManager.PlayCard(gameObject);
         }
     }
 }
