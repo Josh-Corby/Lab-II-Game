@@ -9,10 +9,12 @@ public class NetworkPlayerManager : NetworkBehaviour
     public GameObject Card2;
     public GameObject PlayerArea;
     public GameObject EnemyArea;
-    public GameObject PlayerCardSpot;
+    public PlayerCardSpot playerCardSpot;
 
-    public GameObject[] CardAreas;
-
+    public CardArea[] CardAreas;
+    public CardArea cardArea1;
+    public CardArea cardArea2;
+    public CardArea cardArea3;
 
 
     List<GameObject> cards = new List<GameObject>();
@@ -21,9 +23,9 @@ public class NetworkPlayerManager : NetworkBehaviour
     {
         base.OnStartClient();
 
-        GameObject cardArea1 = GameObject.Find("CardArea1");
-        GameObject cardArea2 = GameObject.Find("CardArea2");
-        GameObject cardArea3 = GameObject.Find("CardArea3");
+        cardArea1 = GameObject.Find("CardArea1").GetComponent<CardArea>();
+        cardArea2 = GameObject.Find("CardArea2").GetComponent<CardArea>();
+        cardArea3 = GameObject.Find("CardArea3").GetComponent<CardArea>();
 
         CardAreas[0] = cardArea1;
         CardAreas[1] = cardArea2;
@@ -31,7 +33,7 @@ public class NetworkPlayerManager : NetworkBehaviour
 
         PlayerArea = GameObject.Find("PlayerArea");
         EnemyArea = GameObject.Find("EnemyArea");
-        PlayerCardSpot = GameObject.Find("PlayerCardSpot");
+        playerCardSpot = GameObject.Find("PlayerCardSpot").GetComponent<PlayerCardSpot>();
     }
 
 
@@ -52,7 +54,6 @@ public class NetworkPlayerManager : NetworkBehaviour
             GameObject card = Instantiate(cards[Random.Range(0, cards.Count)], CardAreas[i].transform);
             NetworkServer.Spawn(card, connectionToClient);
             RpcShowCard(card, "Dealt");
-
         }
     }
 
@@ -74,7 +75,23 @@ public class NetworkPlayerManager : NetworkBehaviour
         {
             if (hasAuthority)
             {
-                card.transform.SetParent(PlayerArea.transform, false);
+                if (cardArea1.isOccupied == false)
+                {
+                    card.transform.SetParent(CardAreas[0].transform, false);
+                    cardArea1.isOccupied = true;
+                }
+
+                else if (cardArea2.isOccupied == false)
+                {
+                    card.transform.SetParent(CardAreas[1].transform, false);
+                    cardArea2.isOccupied = true;
+                }
+
+                else if (cardArea3.isOccupied == false)
+                {
+                    card.transform.SetParent(CardAreas[2].transform, false);
+                    cardArea3.isOccupied = true;
+                }
             }
             else
             {
@@ -83,7 +100,8 @@ public class NetworkPlayerManager : NetworkBehaviour
         }
         else if (type == "Played")
         {
-            card.transform.SetParent(PlayerCardSpot.transform, false);
+            card.transform.SetParent(playerCardSpot.transform, true);
+            playerCardSpot.isOccupied = true;
         }
     }
 }
