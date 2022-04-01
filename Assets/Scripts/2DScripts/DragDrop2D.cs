@@ -8,7 +8,7 @@ public class DragDrop2D : NetworkBehaviour
 
     public GameObject DropZone;
     public GameObject Canvas;
-    public PlayerManager PlayerManager;
+    public GameManager PlayerManager;
 
     private bool isDraggable = true;
     private bool isDragging = false;
@@ -53,7 +53,7 @@ public class DragDrop2D : NetworkBehaviour
             transform.SetParent(dropZone.transform);
             isDraggable = false;
             NetworkIdentity networkIdentity = NetworkClient.connection.identity;
-            PlayerManager = networkIdentity.GetComponent<PlayerManager>();
+            PlayerManager = networkIdentity.GetComponent<GameManager>();
             //PlayerManager.PlayCard(gameObject);
         }
         else
