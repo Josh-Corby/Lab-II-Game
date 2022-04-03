@@ -21,7 +21,6 @@ public class GameManager : GameBehaviour<GameManager>
     public List<GameObject> PlayerDealtCards = new List<GameObject>();
     public List<GameObject> EnemyDealtCards = new List<GameObject>();
 
-    public bool cardPlayed = false;
     #endregion
 
     public int playerHealth;
@@ -42,6 +41,8 @@ public class GameManager : GameBehaviour<GameManager>
 
     public void DealCards()
     {
+        _PCS.isOccupied = false;
+
         for (int i = 0; i < 3; i++)
         {
             int rand1 = Random.Range(0,PlayerDeck.Count);
@@ -57,6 +58,20 @@ public class GameManager : GameBehaviour<GameManager>
             EnemyDealtCards.Add(enemyCard);
  
         }
+    }
+
+    public void ClearDealtCards()
+    {
+        ClearList(PlayerDealtCards);
+        ClearList(EnemyDealtCards);
+    }
+    public void ClearList(List<GameObject> cardArea)
+    {
+        for(int i=0; i<cardArea.Count; i++)
+        {
+            Destroy(cardArea[i]);
+        }
+        cardArea.Clear();
     }
 
     public void PlayPlayerCard(int playerDamage, string[] playerAttackColours, string[] playerDefenseColours)
@@ -78,32 +93,38 @@ public class GameManager : GameBehaviour<GameManager>
         enemyAttackColours = enemyCardToPlay.card.attackColours;
         enemyDefenseColours = enemyCardToPlay.card.defenseColours;
 
-        BattlePhase(playerDamage, playerAttackColours, playerDefenseColours,  enemyDamage, enemyAttackColours, enemyDefenseColours);
+        BattlePhase(playerDamage, playerAttackColours, playerDefenseColours);
     }
 
-    public void BattlePhase(int playerDamage, string[] playerAttackColours, string[] playerDefenseColours,
-                            int enemyDamage, string[] enemyAttackColours, string[] enemyDefenseColours)
+    public void BattlePhase(int playerDamage, string[] playerAttackColours, string[] playerDefenseColours)
     {
         if (playerDamage != 0)
         {
-            Attack(playerDamage, playerAttackColours, enemyDefenseColours, "Enemy", enemyHealth, playerAttackColours);
+            Attack(playerDamage, playerAttackColours, enemyDefenseColours, "Enemy", enemyHealth);
         }
 
         if (enemyDamage != 0)
         {
-            Attack(enemyDamage, enemyAttackColours, playerDefenseColours, "Player", playerHealth, enemyAttackColours);
+            Attack(enemyDamage, enemyAttackColours, playerDefenseColours, "Player", playerHealth);
         }
     }
 
-    public void Attack(int damage, string[] attackColours, string[] defenseColours, string target, int targetHealth, string[] AttackColours)
+    public void Attack(int damage, string[] attackColours, string[] defenseColours, string target, int targetHealth)
     {
         for(int d=0; d <defenseColours.Length; d++)
         {
-            for (int a = 0; a < AttackColours.Length; a++)
+            for (int a = 0; a < attackColours.Length; a++)
             {
-                if (AttackColours[a] != defenseColours[d])
+                if (attackColours[a] != defenseColours[d])
                 {
-                    targetHealth -= damage;
+                    if(target == "Player")
+                    {
+                        playerHealth -= damage;
+                    }
+                    else if(target == "Enemy")
+                    {
+                        enemyHealth -= damage;
+                    }
                     _UI.UpdateHP(target, targetHealth);
                     return;
                 }
