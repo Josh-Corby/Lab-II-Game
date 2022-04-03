@@ -8,7 +8,7 @@ public class GameBehaviour : JMC
     protected static PlayerCardSpot _PCS { get { return PlayerCardSpot.INSTANCE; } }
     protected static EnemyCardSpot _ECS { get { return EnemyCardSpot.INSTANCE; } }
     protected static GameManager _GM { get { return GameManager.INSTANCE; } }
-
+    protected static UIManager _UI { get { return UIManager.INSTANCE; } }
 }
 
 public class GameBehaviour<T> : GameBehaviour where T : GameBehaviour
