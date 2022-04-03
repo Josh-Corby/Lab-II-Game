@@ -22,6 +22,8 @@ public class CardObject : GameBehaviour
     private Sprite frontImage;
     private Sprite backImage;
 
+    private string[] attackColours = { };
+    private string[] defenseColours = { };
 
     void Start()
     {
@@ -32,12 +34,16 @@ public class CardObject : GameBehaviour
 
         id = card.id;
         cardName = card.cardName;
-        attackColour = card.attackColour;
-        defenseColour = card.defenseColour;
+        attackColours = card.attackColours;
+        defenseColours = card.defenseColours;
         cardEffect = card.cardEffect;
         damage = card.damage;
+
         frontImage = card.frontImage;
         backImage = card.backImage;
+
+        //attackColour = card.attackColour;
+        //defenseColour = card.defenseColour;
     }
 
     private void OnMouseDrag()
@@ -61,7 +67,7 @@ public class CardObject : GameBehaviour
         {
             if (collision.gameObject.name == "PlayerDropZone" && !played)
             {
-                _GM.PlayPlayerCard(damage, attackColour, defenseColour);
+                _GM.PlayPlayerCard(damage, attackColours, defenseColours);
                 gameObject.transform.position = _PCS.transform.position;
                 played = true;
                 Debug.Log("Card dropped");

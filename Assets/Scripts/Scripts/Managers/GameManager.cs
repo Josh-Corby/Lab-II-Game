@@ -29,8 +29,11 @@ public class GameManager : GameBehaviour<GameManager>
 
     public CardObject enemyCardToPlay;
     private int enemyDamage;
-    private string enemyAttackColour;
-    private string enemyDefenseColour;
+    private string[] enemyAttackColours = { };
+    private string[] enemyDefenseColours = { };
+
+    //private string enemyAttackColour;
+    //private string enemyDefenseColour;
     public void Start()
     {
         playerHealth = 30;
@@ -56,13 +59,12 @@ public class GameManager : GameBehaviour<GameManager>
         }
     }
 
-    public void PlayPlayerCard(int playerDamage, string playerAttackColour, string playerDefenseColour)
+    public void PlayPlayerCard(int playerDamage, string[] playerAttackColours, string[] playerDefenseColours)
     {
-        _GM.PlayEnemyCard(playerDamage, playerAttackColour, playerDefenseColour);
-        enemyHealth -= playerDamage;
-
+        _GM.PlayEnemyCard(playerDamage, playerAttackColours, playerAttackColours);
     }
-    public void PlayEnemyCard(int playerDamage, string playerAttackColour, string playerDefenseColour)
+
+    public void PlayEnemyCard(int playerDamage, string[] playerAttackColours, string[] playerDefenseColours)
     {
         int rand = Random.Range(1, 3);
         Debug.Log(rand);
@@ -70,36 +72,44 @@ public class GameManager : GameBehaviour<GameManager>
         enemyCardToPlay.transform.position = _ECS.transform.position;
         enemyCardToPlay.transform.rotation = _ECS.transform.rotation;
 
-
         enemyDamage = enemyCardToPlay.card.damage;
-        enemyAttackColour = enemyCardToPlay.card.attackColour;
-        enemyDefenseColour = enemyCardToPlay.card.defenseColour;
+        //enemyAttackColour = enemyCardToPlay.card.attackColour;
+        //enemyDefenseColour = enemyCardToPlay.card.defenseColour;
+        enemyAttackColours = enemyCardToPlay.card.attackColours;
+        enemyDefenseColours = enemyCardToPlay.card.defenseColours;
 
-        BattlePhase(playerDamage, playerAttackColour, playerDefenseColour, enemyDamage, enemyAttackColour, enemyDefenseColour);
+        BattlePhase(playerDamage, playerAttackColours, playerDefenseColours,  enemyDamage, enemyAttackColours, enemyDefenseColours);
     }
 
-    public void BattlePhase(int playerDamage, string playerAttackColour, string playerDefenseColour,
-                            int enemyDamage, string enemyAttackColour, string enemyDefenseColour)
+    public void BattlePhase(int playerDamage, string[] playerAttackColours, string[] playerDefenseColours,
+                            int enemyDamage, string[] enemyAttackColours, string[] enemyDefenseColours)
     {
         if (playerDamage != 0)
         {
-            Attack(playerDamage, playerAttackColour, enemyDefenseColour, "Enemy", enemyHealth);
+            Attack(playerDamage, playerAttackColours, enemyDefenseColours, "Enemy", enemyHealth, playerAttackColours);
         }
 
         if (enemyDamage != 0)
         {
-            Attack(enemyDamage, enemyAttackColour, playerDefenseColour, "Player", playerHealth);
+            Attack(enemyDamage, enemyAttackColours, playerDefenseColours, "Player", playerHealth, enemyAttackColours);
         }
     }
 
-    public void Attack(int damage, string attackColour, string defenseColour, string target, int targetHealth)
-    { 
-        if (attackColour != defenseColour)
+    public void Attack(int damage, string[] attackColours, string[] defenseColours, string target, int targetHealth, string[] AttackColours)
+    {
+        for(int d=0; d <defenseColours.Length; d++)
         {
-            targetHealth -= damage;
-            _UI.UpdateHP(target, targetHealth);
-            
+            for (int a = 0; a < AttackColours.Length; a++)
+            {
+                if (AttackColours[a] != defenseColours[d])
+                {
+                    targetHealth -= damage;
+                    _UI.UpdateHP(target, targetHealth);
+                    return;
+                }
+            }
         }
+        
     }
 
 }

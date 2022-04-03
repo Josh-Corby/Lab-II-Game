@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   cardName: The Empress
-  attackColour: Yellow
-  defenseColour: Green
+  attackColours:
+  - Red
+  - Blue
+  defenseColours:
+  - Red
   cardEffect: 
   damage: 3
   frontImage: {fileID: 0}

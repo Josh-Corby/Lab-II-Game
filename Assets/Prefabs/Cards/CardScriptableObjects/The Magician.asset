@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   cardName: The Magician
-  attackColour: Blue
-  defenseColour: Yellow
+  attackColours:
+  - Green
+  - Yellow
+  defenseColours:
+  - Yellow
   cardEffect: 
   damage: 3
   frontImage: {fileID: 0}

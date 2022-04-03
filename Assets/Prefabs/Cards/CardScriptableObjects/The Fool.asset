@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   cardName: The Fool
-  attackColour: Red
-  defenseColour: Blue
+  attackColours:
+  - Blue
+  - Green
+  defenseColours:
+  - Green
   cardEffect: 
   damage: 2
   frontImage: {fileID: 0}
