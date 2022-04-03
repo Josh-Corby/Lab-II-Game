@@ -15,15 +15,17 @@ public class CardObject : GameBehaviour
     public Card card;
     private int id;
     private string cardName;
-    private string attackColour;
-    private string defenseColour;
-    private string cardEffect;
     private int damage;
+    private string[] attackColours = { };
+    private string[] defenseColours = { };
+    private string cardEffect;
+    
     private Sprite frontImage;
     private Sprite backImage;
 
-    private string[] attackColours = { };
-    private string[] defenseColours = { };
+    //private string attackColour;
+    //private string defenseColour;
+    
 
     void Start()
     {
@@ -72,8 +74,7 @@ public class CardObject : GameBehaviour
                 played = true;
                 Debug.Log("Card dropped");
                 canDrag = false;
-                _PCS.isOccupied = true;
-                
+                _PCS.isOccupied = true;             
             }
         }
     }

@@ -26,6 +26,7 @@ public class UIManager : GameBehaviour<UIManager>
             UpdateEnemyHP(targetHP);
         }
     }
+
     public void UpdatePlayerHP(int targetHP)
     {
         PlayerHP.text = "Player HP : " + targetHP.ToString();

@@ -23,10 +23,12 @@ public class GameManager : GameBehaviour<GameManager>
 
     #endregion
 
+    [HideInInspector]
     public int playerHealth;
+    [HideInInspector]
     public int enemyHealth;
 
-    public CardObject enemyCardToPlay;
+    private CardObject enemyCardToPlay;
     private int enemyDamage;
     private string[] enemyAttackColours = { };
     private string[] enemyDefenseColours = { };
@@ -56,7 +58,6 @@ public class GameManager : GameBehaviour<GameManager>
             GameObject enemyCard = Instantiate(EnemyDeck[rand2], EnemyCardAreas[i].transform);
             enemyCard.transform.rotation = EnemyCardAreas[i].transform.rotation;
             EnemyDealtCards.Add(enemyCard);
- 
         }
     }
 
@@ -88,10 +89,11 @@ public class GameManager : GameBehaviour<GameManager>
         enemyCardToPlay.transform.rotation = _ECS.transform.rotation;
 
         enemyDamage = enemyCardToPlay.card.damage;
-        //enemyAttackColour = enemyCardToPlay.card.attackColour;
-        //enemyDefenseColour = enemyCardToPlay.card.defenseColour;
         enemyAttackColours = enemyCardToPlay.card.attackColours;
         enemyDefenseColours = enemyCardToPlay.card.defenseColours;
+
+        //enemyAttackColour = enemyCardToPlay.card.attackColour;
+        //enemyDefenseColour = enemyCardToPlay.card.defenseColour;
 
         BattlePhase(playerDamage, playerAttackColours, playerDefenseColours);
     }
@@ -130,7 +132,5 @@ public class GameManager : GameBehaviour<GameManager>
                 }
             }
         }
-        
     }
-
 }
