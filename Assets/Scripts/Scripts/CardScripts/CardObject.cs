@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CardObject : GameBehaviour
 {
-    public GameManager playerManager;
     private Rigidbody rigidbody;
     private BoardController board;
     private bool canDrag = true;
@@ -13,15 +12,25 @@ public class CardObject : GameBehaviour
     private float startYPos;
 
     public Card card;
-    private int id;
-    private string cardName;
-    private int damage;
-    private string[] attackColours = { };
-    private string[] defenseColours = { };
-    private string cardEffect;
-    
-    private Sprite frontImage;
-    private Sprite backImage;
+
+    [HideInInspector]
+    public int id, damageAmount, healAmount;
+    [HideInInspector]
+    public string cardName, cardEffect;
+    [HideInInspector]
+    public string[] attackColours = { }, defenseColours = { };
+
+    [HideInInspector]
+    public cardColour cardColour;
+    [HideInInspector]
+    public type type;
+    [HideInInspector]
+    public effectType effectType;
+    [HideInInspector]
+    public attackType attackType;
+
+    [HideInInspector]
+    public Sprite frontImage, backImage;
 
     //private string attackColour;
     //private string defenseColour;
@@ -39,7 +48,13 @@ public class CardObject : GameBehaviour
         attackColours = card.attackColours;
         defenseColours = card.defenseColours;
         cardEffect = card.cardEffect;
-        damage = card.damage;
+        damageAmount = card.damageAmount;
+        healAmount = card.healAmount;
+
+        cardColour = card.cardColour;
+        type = card.type;
+        effectType = card.effectType;
+        attackType = card.attackType;
 
         frontImage = card.frontImage;
         backImage = card.backImage;
@@ -69,12 +84,12 @@ public class CardObject : GameBehaviour
         {
             if (collision.gameObject.name == "PlayerDropZone" && !played)
             {
-                _GM.PlayPlayerCard(damage, attackColours, defenseColours);
+                _GM.PlayEnemyCard(this);
                 gameObject.transform.position = _PCS.transform.position;
                 played = true;
-                Debug.Log("Card dropped");
                 canDrag = false;
-                _PCS.isOccupied = true;             
+                _PCS.isOccupied = true;
+                Debug.Log("Player plays: " + card.cardName);
             }
         }
     }

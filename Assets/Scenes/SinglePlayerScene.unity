@@ -2100,8 +2100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fabead44ae65d747a56430e099f414f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Card1: {fileID: 790028259982849567, guid: 14474a0eeef83cd429e48ea2990bd91e, type: 3}
-  Card2: {fileID: 790028259982849567, guid: 1172e7e7d91097e4880df42762d5ca6c, type: 3}
   PlayerArea: {fileID: 1023898032}
   EnemyArea: {fileID: 813589315}
   PlayerCardAreas:
@@ -2113,20 +2111,55 @@ MonoBehaviour:
   - {fileID: 1766434618}
   - {fileID: 1808697045}
   PlayerDeck:
+  - {fileID: 790028259982849567, guid: 4839b75cd5943e440a3a983c03fea208, type: 3}
+  - {fileID: 790028259982849567, guid: 604347b270ae6c94589c0b6f61a9f0be, type: 3}
+  - {fileID: 790028259982849567, guid: f16b4405c041bea40992f072f7552b72, type: 3}
+  - {fileID: 790028259982849567, guid: 7b1520c27450f79479f7dfd2068d011f, type: 3}
+  - {fileID: 790028259982849567, guid: bffcac3855cb19246bacbc61a5bce110, type: 3}
+  - {fileID: 790028259982849567, guid: e35cb1bbc7a720945a5ea62c13d1c776, type: 3}
+  - {fileID: 790028259982849567, guid: b82fe143fadc5fd4b8ae438e5ceaa9ab, type: 3}
   - {fileID: 790028259982849567, guid: 54bc7c6ebeda75e4bb96af1ecb96b6b2, type: 3}
-  - {fileID: 790028259982849567, guid: da660c011054d6e4080984d24ec15d6d, type: 3}
-  - {fileID: 790028259982849567, guid: ff655905906ece54a87cf2977104bf98, type: 3}
   - {fileID: 790028259982849567, guid: 21c09609a80abe948aba86a3cbce4b8d, type: 3}
+  - {fileID: 790028259982849567, guid: da660c011054d6e4080984d24ec15d6d, type: 3}
+  - {fileID: 790028259982849567, guid: 793dd130e9766ab4e93c630e10a0d323, type: 3}
+  - {fileID: 790028259982849567, guid: 048286acb8fc29947b010257b310e9a0, type: 3}
+  - {fileID: 790028259982849567, guid: 46ffb80a2f47bed41864e1f81a027c05, type: 3}
+  - {fileID: 790028259982849567, guid: e5cc8b24dc61e1447aa7e103e8d5ac7f, type: 3}
+  - {fileID: 790028259982849567, guid: ff655905906ece54a87cf2977104bf98, type: 3}
+  - {fileID: 790028259982849567, guid: b84898c5e031c7d42a1dae7cea73baa8, type: 3}
+  - {fileID: 790028259982849567, guid: ea9b8620990be464782c89b0e1bfe518, type: 3}
+  - {fileID: 790028259982849567, guid: 09cb3c2dbec4e4d40935ee279cdc7de0, type: 3}
+  - {fileID: 790028259982849567, guid: 326ae6385c78c0f4a8a9ee56c6c6a1a0, type: 3}
+  - {fileID: 790028259982849567, guid: 4a51ec936804201418864cb96024d8f5, type: 3}
+  - {fileID: 790028259982849567, guid: d711348a93959094394c3b23cc11e47a, type: 3}
+  - {fileID: 790028259982849567, guid: b504c192ac574974bae513abdb05674e, type: 3}
   EnemyDeck:
+  - {fileID: 790028259982849567, guid: 4839b75cd5943e440a3a983c03fea208, type: 3}
+  - {fileID: 790028259982849567, guid: 604347b270ae6c94589c0b6f61a9f0be, type: 3}
+  - {fileID: 790028259982849567, guid: f16b4405c041bea40992f072f7552b72, type: 3}
+  - {fileID: 790028259982849567, guid: 7b1520c27450f79479f7dfd2068d011f, type: 3}
+  - {fileID: 790028259982849567, guid: bffcac3855cb19246bacbc61a5bce110, type: 3}
+  - {fileID: 790028259982849567, guid: e35cb1bbc7a720945a5ea62c13d1c776, type: 3}
+  - {fileID: 790028259982849567, guid: b82fe143fadc5fd4b8ae438e5ceaa9ab, type: 3}
   - {fileID: 790028259982849567, guid: 54bc7c6ebeda75e4bb96af1ecb96b6b2, type: 3}
-  - {fileID: 790028259982849567, guid: da660c011054d6e4080984d24ec15d6d, type: 3}
-  - {fileID: 790028259982849567, guid: ff655905906ece54a87cf2977104bf98, type: 3}
   - {fileID: 790028259982849567, guid: 21c09609a80abe948aba86a3cbce4b8d, type: 3}
+  - {fileID: 790028259982849567, guid: da660c011054d6e4080984d24ec15d6d, type: 3}
+  - {fileID: 790028259982849567, guid: 793dd130e9766ab4e93c630e10a0d323, type: 3}
+  - {fileID: 790028259982849567, guid: 048286acb8fc29947b010257b310e9a0, type: 3}
+  - {fileID: 790028259982849567, guid: 46ffb80a2f47bed41864e1f81a027c05, type: 3}
+  - {fileID: 790028259982849567, guid: e5cc8b24dc61e1447aa7e103e8d5ac7f, type: 3}
+  - {fileID: 790028259982849567, guid: ff655905906ece54a87cf2977104bf98, type: 3}
+  - {fileID: 790028259982849567, guid: b84898c5e031c7d42a1dae7cea73baa8, type: 3}
+  - {fileID: 790028259982849567, guid: ea9b8620990be464782c89b0e1bfe518, type: 3}
+  - {fileID: 790028259982849567, guid: 09cb3c2dbec4e4d40935ee279cdc7de0, type: 3}
+  - {fileID: 790028259982849567, guid: 326ae6385c78c0f4a8a9ee56c6c6a1a0, type: 3}
+  - {fileID: 790028259982849567, guid: 4a51ec936804201418864cb96024d8f5, type: 3}
+  - {fileID: 790028259982849567, guid: d711348a93959094394c3b23cc11e47a, type: 3}
+  - {fileID: 790028259982849567, guid: b504c192ac574974bae513abdb05674e, type: 3}
   PlayerDealtCards: []
   EnemyDealtCards: []
   playerHealth: 30
   enemyHealth: 30
-  enemyCardToPlay: {fileID: 0}
 --- !u!4 &2054203334
 Transform:
   m_ObjectHideFlags: 0

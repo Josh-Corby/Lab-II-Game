@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
+  m_Name: The Heirophant
+  m_EditorClassIdentifier: 
+  cardColour: 0
+  type: 0
+  effectType: 0
+  attackType: 0
+  id: 15
+  cardName: The Heirophant
+  attackColours:
+  - Yellow
+  - 
+  - 
+  - 
+  defenseColours:
+  - 
+  - 
+  - 
+  - Blue
+  cardEffect: 3 damage on hit
+  damageAmount: 3
+  healAmount: 0
+  frontImage: {fileID: 0}
+  backImage: {fileID: 0}

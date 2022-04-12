@@ -10,16 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
-  m_Name: The Emperor
+  m_Name: The Chariot
   m_EditorClassIdentifier: 
-  id: 0
-  cardName: The Emperor
+  cardColour: 0
+  type: 0
+  effectType: 1
+  attackType: 0
+  id: 10
+  cardName: The Chariot
   attackColours:
+  - Yellow
+  - 
   - Green
-  - Red
+  - 
   defenseColours:
-  - Blue
-  cardEffect: 
-  damage: 1
+  - 
+  - 
+  - 
+  - 
+  cardEffect: 3 damage per hit
+  damageAmount: 3
+  healAmount: 0
   frontImage: {fileID: 0}
   backImage: {fileID: 0}

@@ -10,16 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
-  m_Name: The Fool
+  m_Name: The Hermit
   m_EditorClassIdentifier: 
-  id: 1
-  cardName: The Fool
+  cardColour: 0
+  type: 1
+  effectType: 0
+  attackType: 0
+  id: 11
+  cardName: The Hermit
   attackColours:
-  - Blue
-  - Green
+  - 
+  - 
+  - 
+  - 
   defenseColours:
-  - Green
-  cardEffect: 
-  damage: 2
+  - Yellow
+  - 
+  - 
+  - 
+  cardEffect: Deal 6 damage on block
+  damageAmount: 6
+  healAmount: 0
   frontImage: {fileID: 0}
   backImage: {fileID: 0}
