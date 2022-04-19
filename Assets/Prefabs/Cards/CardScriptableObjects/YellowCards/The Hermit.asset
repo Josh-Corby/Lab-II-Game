@@ -12,22 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
   m_Name: The Hermit
   m_EditorClassIdentifier: 
-  cardColour: 0
+  cardColour: 1
   type: 1
   effectType: 0
   attackType: 0
-  id: 11
+  id: 13
   cardName: The Hermit
-  attackColours:
-  - 
-  - 
-  - 
-  - 
-  defenseColours:
-  - Yellow
-  - 
-  - 
-  - 
+  attackColours: 00000000000000000000000000000000
+  defenseColours: 01000000000000000000000000000000
   cardEffect: Deal 6 damage on block
   damageAmount: 6
   healAmount: 0

@@ -5,10 +5,12 @@ using UnityEngine;
 
 public enum cardColour
 {
+    None,
     Yellow,
     Red,
-    Gree,
+    Green,
     Blue
+    
 }
 
 public enum type
@@ -39,8 +41,10 @@ public class Card : ScriptableObject
 
     public int id;
     public string cardName;
-    public string[] attackColours = { };
-    public string[] defenseColours = { };
+
+    public cardColour[] attackColours;
+    public cardColour[] defenseColours;
+
     public string cardEffect;
     public int damageAmount;
     public int healAmount;

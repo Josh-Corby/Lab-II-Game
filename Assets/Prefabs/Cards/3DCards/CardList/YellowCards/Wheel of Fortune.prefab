@@ -77,6 +77,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 11400000, guid: aec39969cc5c3f544afa445d1b28f9a4, type: 2}
+  id: 0
+  damageAmount: 0
+  healAmount: 0
+  cardName: 
+  cardEffect: 
+  cardColour: 0
+  type: 0
+  effectType: 0
+  attackType: 0
+  attackColours: 
+  defenseColours: 
+  frontImage: {fileID: 0}
+  backImage: {fileID: 0}
 --- !u!1 &3136282774195487844
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +257,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7a3fbcdf583cde84984468221a61e470, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fed78d22e266cb3489b9c88667a0eb73, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

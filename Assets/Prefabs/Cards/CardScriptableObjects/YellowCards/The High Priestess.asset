@@ -12,22 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
   m_Name: The High Priestess
   m_EditorClassIdentifier: 
-  cardColour: 0
+  cardColour: 1
   type: 1
   effectType: 0
   attackType: 0
-  id: 7
+  id: 14
   cardName: The High Priestess
-  attackColours:
-  - 
-  - 
-  - 
-  - 
-  defenseColours:
-  - Yellow
-  - 
-  - Green
-  - Blue
+  attackColours: 00000000000000000000000000000000
+  defenseColours: 01000000000000000300000004000000
   cardEffect: heal 6 hp on block
   damageAmount: 0
   healAmount: 6

@@ -12,22 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
   m_Name: Judgement
   m_EditorClassIdentifier: 
-  cardColour: 0
+  cardColour: 1
   type: 0
   effectType: 1
   attackType: 0
-  id: 16
+  id: 2
   cardName: Judgement
-  attackColours:
-  - Yellow
-  - 
-  - Green
-  - 
-  defenseColours:
-  - 
-  - 
-  - 
-  - Blue
+  attackColours: 01000000000000000300000000000000
+  defenseColours: 00000000000000000000000004000000
   cardEffect: 2 damage per hit
   damageAmount: 2
   healAmount: 0

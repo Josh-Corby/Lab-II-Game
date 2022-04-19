@@ -12,22 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427653aabd65a5b4ba164bbaeca70d98, type: 3}
   m_Name: Temperance
   m_EditorClassIdentifier: 
-  cardColour: 0
+  cardColour: 1
   type: 0
   effectType: 0
-  attackType: 0
-  id: 19
+  attackType: 2
+  id: 5
   cardName: Temperance
-  attackColours:
-  - Yellow
-  - Red
-  - 
-  - Blue
-  defenseColours:
-  - 
-  - 
-  - 
-  - 
+  attackColours: 01000000020000000000000004000000
+  defenseColours: 00000000000000000000000000000000
   cardEffect: 3 damage on hit, iff all 3 hit deal 6 damage
   damageAmount: 3
   healAmount: 0

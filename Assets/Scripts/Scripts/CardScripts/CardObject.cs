@@ -18,9 +18,6 @@ public class CardObject : GameBehaviour
     [HideInInspector]
     public string cardName, cardEffect;
     [HideInInspector]
-    public string[] attackColours = { }, defenseColours = { };
-
-    [HideInInspector]
     public cardColour cardColour;
     [HideInInspector]
     public type type;
@@ -28,7 +25,10 @@ public class CardObject : GameBehaviour
     public effectType effectType;
     [HideInInspector]
     public attackType attackType;
-
+    [HideInInspector]
+    public cardColour[] attackColours;
+    [HideInInspector]
+    public cardColour[] defenseColours;
     [HideInInspector]
     public Sprite frontImage, backImage;
 
