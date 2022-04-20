@@ -49,8 +49,7 @@ public class Card : ScriptableObject
     public int damageAmount;
     public int healAmount;
 
-    public Sprite frontImage;
-    public Sprite backImage;
+
 
     //public string attackColour;
     //public string defenseColour;

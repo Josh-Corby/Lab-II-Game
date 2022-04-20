@@ -9,14 +9,28 @@ public class UIManager : GameBehaviour<UIManager>
     public TMP_Text PlayerHP;
     public TMP_Text EnemyHP;
 
+    public Canvas GameCanvas;
+    public Canvas TitleScreen;
     public GameObject GameOverPanel;
     public TMP_Text victoryText;
 
     private void Start()
     {
+        Time.timeScale = 0f;
+        TitleScreen.enabled = true;
+        GameCanvas.enabled = false;
+        
+        GameOverPanel.SetActive(false);
+
+    }
+
+    public void StartGame()
+    {
+        TitleScreen.enabled = false;
+        GameCanvas.enabled = true;
+        Time.timeScale = 1f;
         UpdatePlayerHP(_GM.playerHealth);
         UpdateEnemyHP(_GM.enemyHealth);
-        GameOverPanel.SetActive(false);
     }
 
     public void UpdateHP(string target, int targetHP)
@@ -47,4 +61,8 @@ public class UIManager : GameBehaviour<UIManager>
         victoryText.text = (winner + " wins!");
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

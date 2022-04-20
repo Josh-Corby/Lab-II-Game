@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public class CardObject : GameBehaviour
 {
@@ -10,6 +10,7 @@ public class CardObject : GameBehaviour
     private bool canDrag = true;
     private bool played = false;
     private float startYPos;
+    public TMP_Text cardNameText;
 
     public Card card;
 
@@ -25,9 +26,9 @@ public class CardObject : GameBehaviour
     public effectType effectType;
     [HideInInspector]
     public attackType attackType;
-    [HideInInspector]
+    
     public cardColour[] attackColours;
-    [HideInInspector]
+    
     public cardColour[] defenseColours;
     [HideInInspector]
     public Sprite frontImage, backImage;
@@ -45,8 +46,17 @@ public class CardObject : GameBehaviour
 
         id = card.id;
         cardName = card.cardName;
+        cardNameText.text = card.cardName;
+
         attackColours = card.attackColours;
         defenseColours = card.defenseColours;
+        for(int i=0; i<4; i++)
+        //{
+        //    attackColours[i] = card.attackColours[i];
+        //    defenseColours[i] = card.defenseColours[i];
+        //}
+        
+        
         cardEffect = card.cardEffect;
         damageAmount = card.damageAmount;
         healAmount = card.healAmount;
@@ -56,8 +66,7 @@ public class CardObject : GameBehaviour
         effectType = card.effectType;
         attackType = card.attackType;
 
-        frontImage = card.frontImage;
-        backImage = card.backImage;
+
 
         //attackColour = card.attackColour;
         //defenseColour = card.defenseColour;

@@ -170,16 +170,16 @@ public class GameManager : GameBehaviour<GameManager>
             Success(_cardPlayed, target);
             return;
         }
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < _cardPlayed.attackColours.Length; i++)
         {
-            if(_cardPlayed.attackColours[i].ToString() != "None")
-            {
+            //if(_cardPlayed.attackColours[i].ToString() != "None")
+            //{
                 if (_cardPlayed.attackColours[i] != _opponentCard.defenseColours[i])
                 {
                     Success(_cardPlayed, target);
                     if (_cardPlayed.effectType == effectType.Single) return;
                 }
-            }
+            //}
            
         }
     }
@@ -188,7 +188,7 @@ public class GameManager : GameBehaviour<GameManager>
     {
         for (int i = 0; i < 4; i++)
         {
-            if (_cardPlayed.defenseColours[i] == _opponentCard.attackColours[i])
+            if (_cardPlayed.defenseColours[i].ToString() != "None" && _cardPlayed.defenseColours[i].ToString() == _opponentCard.attackColours[i].ToString())
             {
                 Success(_cardPlayed, target);
                 if (_cardPlayed.effectType == effectType.Single) return;

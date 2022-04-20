@@ -76,6 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8109057773ca15942a8194c58b669d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardNameText: {fileID: 0}
   card: {fileID: 11400000, guid: b204448bbbbac9348a4651cc4ed6673a, type: 2}
   id: 0
   damageAmount: 0
@@ -86,8 +87,8 @@ MonoBehaviour:
   type: 0
   effectType: 0
   attackType: 0
-  attackColours: 
-  defenseColours: 
+  attackColours: 00000000000000000000000000000000
+  defenseColours: 00000000000000000000000000000000
   frontImage: {fileID: 0}
   backImage: {fileID: 0}
 --- !u!1 &3136282774195487844
