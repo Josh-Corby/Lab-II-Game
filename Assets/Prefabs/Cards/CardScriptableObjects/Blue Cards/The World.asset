@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: The World
   m_EditorClassIdentifier: 
   cardColour: 4
-  type: 0
+  type: 1
   effectType: 0
   attackType: 2
   id: 87
   cardName: The World
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000300000004000000
-  cardEffect: 3 damage of red card attacks
+  colourSpecificColour: Yellow
+  colourSpecificAmount: 3
+  cardEffect: 3 damage if yellow card attacks
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

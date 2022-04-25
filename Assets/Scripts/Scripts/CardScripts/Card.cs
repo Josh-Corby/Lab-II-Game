@@ -45,11 +45,11 @@ public class Card : ScriptableObject
     public cardColour[] attackColours;
     public cardColour[] defenseColours;
 
+    public string colourSpecificColour;
+    public int colourSpecificAmount;
     public string cardEffect;
     public int damageAmount;
     public int healAmount;
-
-
 
     //public string attackColour;
     //public string defenseColour;

@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: Death
   attackColours: 00000000020000000300000000000000
   defenseColours: 00000000000000000000000000000000
-  cardEffect: 3 damage on hit, if red hits deal 6
+  colourSpecificColour: Red
+  colourSpecificAmount: 6
+  cardEffect: 3 damage on hit, if green hits deal 6
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

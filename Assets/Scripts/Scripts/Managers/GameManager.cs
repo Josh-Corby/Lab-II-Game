@@ -30,13 +30,13 @@ public class GameManager : GameBehaviour<GameManager>
 
     private CardObject enemyCard;
 
-
     //private string enemyAttackColour;
     //private string enemyDefenseColour;
     public void Start()
     {
         playerHealth = 30;
         enemyHealth = 30;
+
 
         DealCards();
     }
@@ -129,7 +129,7 @@ public class GameManager : GameBehaviour<GameManager>
     public IEnumerator DiscardCards(List<GameObject> cardArea, GameObject discardpile)
     {
         yield return new WaitForSeconds(2f);
-        for (int i = 0; i < cardArea.Count; i++)
+        for (int i = 0; i <=2; i++)
         {
             MoveToDiscard(cardArea[i], discardpile);
         }
@@ -149,6 +149,7 @@ public class GameManager : GameBehaviour<GameManager>
 
     public void PlayerAttackCheck(CardObject _playerCard)
     {
+
         if (_playerCard.type == type.Attack)
             Attack(_playerCard, enemyCard, "Enemy");
         else
@@ -167,16 +168,31 @@ public class GameManager : GameBehaviour<GameManager>
     {
         if(_cardPlayed.attackType == attackType.pierce)
         {
-            Success(_cardPlayed, target);
+            Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
             return;
         }
         for (int i = 0; i < _cardPlayed.attackColours.Length; i++)
         {
+            //check if card type is colour specific
+            if (_cardPlayed.attackType == attackType.colourSpecific)
+            {
+                for (int c = 0; c < 4; c++)
+                {
+                    //check if attack colour is the same as colour specific colour
+                    if (_cardPlayed.attackColours[c].ToString() == _cardPlayed.colourSpecificColour
+                       && _cardPlayed.attackColours[c].ToString() != _opponentCard.defenseColours[c].ToString())
+                    {
+                        // run success with colour specific effect
+                        Success(target, _cardPlayed.colourSpecificAmount, _cardPlayed.healAmount);
+                        return;
+                    }
+                }
+            }
             //if(_cardPlayed.attackColours[i].ToString() != "None")
             //{
-                if (_cardPlayed.attackColours[i] != _opponentCard.defenseColours[i])
+            if (_cardPlayed.attackColours[i] != _opponentCard.defenseColours[i])
                 {
-                    Success(_cardPlayed, target);
+                    Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
                     if (_cardPlayed.effectType == effectType.Single) return;
                 }
             //}
@@ -188,23 +204,46 @@ public class GameManager : GameBehaviour<GameManager>
     {
         for (int i = 0; i < 4; i++)
         {
+            //check if block succeeds
             if (_cardPlayed.defenseColours[i].ToString() != "None" && _cardPlayed.defenseColours[i].ToString() == _opponentCard.attackColours[i].ToString())
             {
-                Success(_cardPlayed, target);
-                if (_cardPlayed.effectType == effectType.Single) return;
+                //ASK BRENDAN ABOUT TERNARY OPERATORS
+
+                //check if card type is colour specific
+                if (_cardPlayed.attackType == attackType.colourSpecific)
+                {
+                    for (int c = 0; c < 4; c++)
+                    {
+                        //check if block colour is the same as colour specific colour
+                        if (_cardPlayed.defenseColours[c].ToString() == _cardPlayed.colourSpecificColour 
+                           && _cardPlayed.defenseColours[c].ToString() == _opponentCard.attackColours[c].ToString())
+                        {
+                            // run success with colour specific effect
+                            Success(target, _cardPlayed.colourSpecificAmount, _cardPlayed.healAmount);
+                            return;
+                        }
+                    }   
+                }
+                else
+                {
+                    Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
+                    if (_cardPlayed.effectType == effectType.Single) return;
+                }
             }
+            else
+                return;
         }
     }
 
-    public void Success(CardObject _cardPlayed, string target)
+    public void Success(string target, int damage, int heal)
     {
         if (target == "Player")
         {
             Debug.Log("Enemy Card Success");
-            playerHealth -= _cardPlayed.card.damageAmount;
+            playerHealth -= damage;
             if (playerHealth <= 0)
                 _UI.GameOver("Enemy");
-            enemyHealth += _cardPlayed.card.healAmount;
+            enemyHealth += heal;
             if (enemyHealth >= 30)
                 enemyHealth = 30;
             _UI.UpdateHP(target, playerHealth);
@@ -213,10 +252,10 @@ public class GameManager : GameBehaviour<GameManager>
         if (target == "Enemy")
         {
             Debug.Log("Player Card Success");
-            enemyHealth -= _cardPlayed.card.damageAmount;
+            enemyHealth -= damage;
             if (enemyHealth <= 0)
                 _UI.GameOver("Player");
-            playerHealth += _cardPlayed.card.healAmount;
+            playerHealth += heal;
             if (playerHealth >= 30)
                 playerHealth = 30;
             _UI.UpdateHP(target, enemyHealth);

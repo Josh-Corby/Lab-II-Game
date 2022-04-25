@@ -19,9 +19,7 @@ MonoBehaviour:
   id: 22
   cardName: Wheel of Fortune
   attackColours: 01000000000000000000000000000000
-  defenseColours: 01000000000000000000000000000000
+  defenseColours: 00000000000000000000000000000000
   cardEffect: 3 damage on hit, armour pierce
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}
