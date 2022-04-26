@@ -22,7 +22,7 @@ public class CardObject : GameBehaviour
     public int id, damageAmount, healAmount, colourSpecificAmount;
     [HideInInspector]
     public string cardName, cardEffect, colourSpecificColour;
-    [HideInInspector]
+
     public cardColour cardColour;
     [HideInInspector]
     public type type;

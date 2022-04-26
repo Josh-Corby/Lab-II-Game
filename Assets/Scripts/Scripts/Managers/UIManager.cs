@@ -14,6 +14,9 @@ public class UIManager : GameBehaviour<UIManager>
     public GameObject GameOverPanel;
     public TMP_Text victoryText;
 
+    public AudioSource SFX;
+    public AudioClip gameOverSound;
+    public AudioClip victorySound;
     private void Start()
     {
         Time.timeScale = 0f;
@@ -29,6 +32,7 @@ public class UIManager : GameBehaviour<UIManager>
         TitleScreen.enabled = false;
         GameCanvas.enabled = true;
         Time.timeScale = 1f;
+        _GM.StartGame();
         UpdatePlayerHP(_GM.playerHealth);
         UpdateEnemyHP(_GM.enemyHealth);
     }
@@ -47,18 +51,28 @@ public class UIManager : GameBehaviour<UIManager>
 
     public void UpdatePlayerHP(int targetHP)
     {
-        PlayerHP.text = "Player HP : " + targetHP.ToString();
+        PlayerHP.text =targetHP.ToString();
     }
 
     public void UpdateEnemyHP(int targetHP)
     {
-        EnemyHP.text = "Enemy HP : " + targetHP.ToString();
+        EnemyHP.text = targetHP.ToString();
     }
 
     public void GameOver(string winner)
     {
         GameOverPanel.SetActive(true);
         victoryText.text = (winner + " wins!");
+        if(winner == "Player")
+        {
+            SFX.clip = victorySound;
+            SFX.Play();
+        }
+        if(winner == "Enemy")
+        {
+            SFX.clip = gameOverSound;
+            SFX.Play();
+        }
     }
 
     public void Quit()

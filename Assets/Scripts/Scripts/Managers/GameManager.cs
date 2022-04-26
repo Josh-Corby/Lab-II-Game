@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : GameBehaviour<GameManager>
 {
@@ -14,6 +15,7 @@ public class GameManager : GameBehaviour<GameManager>
     [Header("Arrays")]
     public GameObject[] PlayerCardAreas;
     public GameObject[] EnemyCardAreas;
+    public Image[] EnemyCardColours;
 
     [Header("Lists")]
     public List<GameObject> PlayerDeck = new List<GameObject>();
@@ -21,22 +23,36 @@ public class GameManager : GameBehaviour<GameManager>
     public List<GameObject> PlayerDealtCards = new List<GameObject>();
     public List<GameObject> EnemyDealtCards = new List<GameObject>();
 
+    public HealthBar playerHealthBar;
+    public HealthBar enemyHealthBar;
     #endregion
 
     [HideInInspector]
     public int playerHealth;
     [HideInInspector]
     public int enemyHealth;
+    [HideInInspector]
+    public string enemyCardColour;
 
     private CardObject enemyCard;
 
+    public AudioSource SFX;
+    public AudioClip dealCards;
+    public AudioClip cardPlay;
+    public AudioClip buttonClick;
+    public AudioClip damage;
+    public AudioClip heal;
+
     //private string enemyAttackColour;
     //private string enemyDefenseColour;
-    public void Start()
+
+
+    public void StartGame()
     {
         playerHealth = 30;
+        playerHealthBar.SetMaxHealth(playerHealth);
         enemyHealth = 30;
-
+        enemyHealthBar.SetMaxHealth(enemyHealth);
 
         DealCards();
     }
@@ -44,7 +60,8 @@ public class GameManager : GameBehaviour<GameManager>
     public void DealCards()
     {
         _PCS.isOccupied = false;
-
+        SFX.clip = dealCards;
+        SFX.Play();
         for (int i = 0; i < 3; i++)
         {
             int rand1 = Random.Range(0,PlayerDeck.Count);
@@ -63,6 +80,17 @@ public class GameManager : GameBehaviour<GameManager>
             GameObject enemyCard = Instantiate(EnemyDeck[rand2], EnemyCardAreas[i].transform);
             enemyCard.transform.rotation = EnemyCardAreas[i].transform.rotation;
             EnemyDealtCards.Add(enemyCard);
+
+            enemyCardColour = enemyCard.GetComponent<CardObject>().cardColour.ToString();
+            Debug.Log(enemyCard.GetComponent<CardObject>().cardColour);
+            //if (enemyCardColour == "Red")
+            //    EnemyCardColours[i].color = Color.red;
+            //else if (enemyCardColour == "Yellow")
+            //    EnemyCardColours[i].color = Color.yellow;
+            //else if (enemyCardColour == "Green")
+            //    EnemyCardColours[i].color = Color.green;
+            //else if (enemyCardColour == "Blue")
+            //    EnemyCardColours[i].color = Color.blue;
 
             //for (int e = 0; e < PlayerDeck.Count; e++)
             //{
@@ -97,6 +125,7 @@ public class GameManager : GameBehaviour<GameManager>
     public void MoveToDiscard(GameObject card, GameObject discardpile)
     {
         card.transform.position = Vector3.MoveTowards(transform.position, discardpile.transform.position, 10f);
+        card.transform.rotation = discardpile.transform.rotation;
     }
 
     //passes through values of player card played
@@ -241,11 +270,14 @@ public class GameManager : GameBehaviour<GameManager>
         {
             Debug.Log("Enemy Card Success");
             playerHealth -= damage;
+            playerHealthBar.SetHealth(playerHealth);
             if (playerHealth <= 0)
                 _UI.GameOver("Enemy");
+
             enemyHealth += heal;
             if (enemyHealth >= 30)
                 enemyHealth = 30;
+            enemyHealthBar.SetHealth(enemyHealth);
             _UI.UpdateHP(target, playerHealth);
             Debug.Log(playerHealth);
         }
@@ -253,9 +285,12 @@ public class GameManager : GameBehaviour<GameManager>
         {
             Debug.Log("Player Card Success");
             enemyHealth -= damage;
+            enemyHealthBar.SetHealth(enemyHealth);
             if (enemyHealth <= 0)
                 _UI.GameOver("Player");
+
             playerHealth += heal;
+            playerHealthBar.SetHealth(playerHealth);
             if (playerHealth >= 30)
                 playerHealth = 30;
             _UI.UpdateHP(target, enemyHealth);
