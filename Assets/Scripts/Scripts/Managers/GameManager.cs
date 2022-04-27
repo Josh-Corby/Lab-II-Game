@@ -25,6 +25,7 @@ public class GameManager : GameBehaviour<GameManager>
 
     public HealthBar playerHealthBar;
     public HealthBar enemyHealthBar;
+
     #endregion
 
     [HideInInspector]
@@ -64,9 +65,10 @@ public class GameManager : GameBehaviour<GameManager>
         SFX.Play();
         for (int i = 0; i < 3; i++)
         {
-            int rand1 = Random.Range(0,PlayerDeck.Count);
+            int rand1 = Random.Range(0, PlayerDeck.Count);
             GameObject playerCard = Instantiate(PlayerDeck[rand1], PlayerCardAreas[i].transform);
             PlayerDealtCards.Add(playerCard);
+
             //PlayerDeck.Remove(PlayerDeck[rand]);
             //for (int p = 0; p < PlayerDeck.Count; p++)
             //{
@@ -81,8 +83,9 @@ public class GameManager : GameBehaviour<GameManager>
             enemyCard.transform.rotation = EnemyCardAreas[i].transform.rotation;
             EnemyDealtCards.Add(enemyCard);
 
-            enemyCardColour = enemyCard.GetComponent<CardObject>().cardColour.ToString();
-            Debug.Log(enemyCard.GetComponent<CardObject>().cardColour);
+            //enemyCardColour = enemyCard.GetComponent<CardObject>().cardColour.ToString();
+            //Debug.Log(enemyCard.GetComponent<CardObject>().cardColour);
+
             //if (enemyCardColour == "Red")
             //    EnemyCardColours[i].color = Color.red;
             //else if (enemyCardColour == "Yellow")
@@ -92,10 +95,11 @@ public class GameManager : GameBehaviour<GameManager>
             //else if (enemyCardColour == "Blue")
             //    EnemyCardColours[i].color = Color.blue;
 
-            //for (int e = 0; e < PlayerDeck.Count; e++)
+            //for (int e = 0; e < EnemyDeck.Count; e++)
             //{
-            //    if (enemyCard.GetComponent<Card>().id == EnemyDeck[e].GetComponent<Card>().id)
+            //    if (enemyCard.GetComponent<CardObject>().id == EnemyDeck[e].GetComponent<CardObject>().id)
             //    {
+            //        Debug.Log("card removed");
             //        EnemyDeck.RemoveAt(e);
             //    }
             //}
@@ -128,6 +132,35 @@ public class GameManager : GameBehaviour<GameManager>
         card.transform.rotation = discardpile.transform.rotation;
     }
 
+    public IEnumerator PlayEnemyCard(CardObject _playerCard)
+    {
+        yield return new WaitForSeconds(1.5f);
+        int rand = Random.Range(1, 3);
+        enemyCard = EnemyDealtCards[rand].GetComponent<CardObject>();
+        enemyCard.transform.position = _ECS.transform.position;
+        enemyCard.transform.rotation = _ECS.transform.rotation;
+        //enemyCard.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+        Debug.Log("Enemy Plays: " + enemyCard.name);
+
+        //enemyAttackColour = enemyCardToPlay.card.attackColour;
+        //enemyDefenseColour = enemyCardToPlay.card.defenseColour;
+        StartCoroutine(BattlePhase(_playerCard));
+    }
+    public IEnumerator DiscardCards(List<GameObject> cardArea, GameObject discardpile)
+    {
+        for (int i = 0; i <= 2; i++)
+        {
+            cardArea[i].gameObject.GetComponent<CardObject>().PlayParticles();
+        }
+        yield return new WaitForSeconds(0.5f);
+        for (int i = 0; i <= 2; i++)
+        {
+            Destroy(cardArea[i].gameObject);
+            //MoveToDiscard(cardArea[i], discardpile);
+        }
+        cardArea.Clear();
+    }
+    /*
     //passes through values of player card played
     public void PlayEnemyCard(CardObject _playerCard)
     {
@@ -135,15 +168,14 @@ public class GameManager : GameBehaviour<GameManager>
         enemyCard = EnemyDealtCards[rand].GetComponent<CardObject>();
         enemyCard.transform.position = _ECS.transform.position;
         enemyCard.transform.rotation = _ECS.transform.rotation;
+        //enemyCard.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
         Debug.Log("Enemy Plays: " + enemyCard.name);
-
-
 
         //enemyAttackColour = enemyCardToPlay.card.attackColour;
         //enemyDefenseColour = enemyCardToPlay.card.defenseColour;
-
         StartCoroutine(BattlePhase(_playerCard));
     }
+    */
 
     #region Combat functions
 
@@ -155,15 +187,7 @@ public class GameManager : GameBehaviour<GameManager>
         StartCoroutine(ClearCards());
     }
 
-    public IEnumerator DiscardCards(List<GameObject> cardArea, GameObject discardpile)
-    {
-        yield return new WaitForSeconds(2f);
-        for (int i = 0; i <=2; i++)
-        {
-            MoveToDiscard(cardArea[i], discardpile);
-        }
-        cardArea.Clear();
-    }
+    
     //public void BattlePhase(CardObject _playerCard)
     //{
     //    PlayerAttackCheck(_playerCard);

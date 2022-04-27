@@ -12,7 +12,6 @@ public class CardObject : GameBehaviour
     private float startYPos;
 
     private ParticleSystem playParticles;
-
     public TMP_Text cardNameText;
     public TMP_Text cardEffectText;
 
@@ -75,7 +74,8 @@ public class CardObject : GameBehaviour
         colourSpecificAmount = card.colourSpecificAmount;
         colourSpecificColour = card.colourSpecificColour;
 
-        playParticles = GetComponent<ParticleSystem>();
+        playParticles = gameObject.GetComponentInChildren<ParticleSystem>();
+        
         //attackColour = card.attackColour;
         //defenseColour = card.defenseColour;
     }
@@ -84,6 +84,7 @@ public class CardObject : GameBehaviour
     {
         if (canDrag == true && _PCS.isOccupied == false)
         {
+            gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             Vector3 newWorldPosition = new Vector3(board.CurrentMousePosition.x, startYPos + 1, board.CurrentMousePosition.z);
 
             var difference = newWorldPosition - transform.position;
@@ -95,20 +96,36 @@ public class CardObject : GameBehaviour
         else return;
     }
 
+    private void OnMouseEnter()
+    {
+        gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        //gameObject.transform.Rotate(0f, 180f, 0f, Space.Self);
+    }
+
+    private void OnMouseExit()
+    {
+        gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //gameObject.transform.Rotate(0f, 0f, 0f, Space.Self);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (!played)
         {
             if (collision.gameObject.name == "PlayerDropZone" && !played)
             {
-                _GM.PlayEnemyCard(this);
+                StartCoroutine(_GM.PlayEnemyCard(this));
                 gameObject.transform.position = _PCS.transform.position;
                 played = true;
                 canDrag = false;
                 _PCS.isOccupied = true;
-                playParticles.Play();
+                PlayParticles();
                 Debug.Log("Player plays: " + card.cardName);
             }
         }
+    }
+
+    public void PlayParticles()
+    {
+        playParticles.Play();
     }
 }
