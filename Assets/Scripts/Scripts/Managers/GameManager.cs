@@ -34,6 +34,8 @@ public class GameManager : GameBehaviour<GameManager>
     public int enemyHealth;
     [HideInInspector]
     public string enemyCardColour;
+    [HideInInspector]
+    public int id;
 
     private CardObject enemyCard;
 
@@ -50,6 +52,7 @@ public class GameManager : GameBehaviour<GameManager>
 
     public void StartGame()
     {
+        _UI.UpdateDeckCount(PlayerDeck.Count);
         playerHealth = 30;
         playerHealthBar.SetMaxHealth(playerHealth);
         enemyHealth = 30;
@@ -63,53 +66,68 @@ public class GameManager : GameBehaviour<GameManager>
         _PCS.isOccupied = false;
         SFX.clip = dealCards;
         SFX.Play();
-        for (int i = 0; i < 3; i++)
+        if (PlayerDeck.Count > 0)
         {
-            int rand1 = Random.Range(0, PlayerDeck.Count);
-            GameObject playerCard = Instantiate(PlayerDeck[rand1], PlayerCardAreas[i].transform);
-            PlayerDealtCards.Add(playerCard);
 
-            //PlayerDeck.Remove(PlayerDeck[rand]);
-            //for (int p = 0; p < PlayerDeck.Count; p++)
-            //{
-            //    if (playerCard.GetComponent<Card>().id == PlayerDeck[p].GetComponent<Card>().id)
-            //    {
-            //        PlayerDeck.RemoveAt(p);
-            //    }
-            //}
+            for (int i = 0; i < 3; i++)
+            {
+                int rand1 = Random.Range(0, PlayerDeck.Count);
+                GameObject playerCard = Instantiate(PlayerDeck[rand1], PlayerCardAreas[i].transform);
+                PlayerDealtCards.Add(playerCard);
 
-            int rand2 = Random.Range(0, PlayerDeck.Count);
-            GameObject enemyCard = Instantiate(EnemyDeck[rand2], EnemyCardAreas[i].transform);
-            enemyCard.transform.rotation = EnemyCardAreas[i].transform.rotation;
-            EnemyDealtCards.Add(enemyCard);
+                for (int p = 0; p < PlayerDeck.Count; p++)
+                {
+                    if (playerCard.GetComponent<CardObject>().id == PlayerDeck[p].GetComponent<CardObject>().id)
+                    {
+                        PlayerDeck.RemoveAt(p);
+                    }
+                }
+                _UI.UpdateDeckCount(PlayerDeck.Count);
 
-            //enemyCardColour = enemyCard.GetComponent<CardObject>().cardColour.ToString();
-            //Debug.Log(enemyCard.GetComponent<CardObject>().cardColour);
+                int rand2 = Random.Range(0, PlayerDeck.Count);
+                GameObject enemyCard = Instantiate(EnemyDeck[rand2], EnemyCardAreas[i].transform);
+                enemyCard.transform.rotation = EnemyCardAreas[i].transform.rotation;
+                EnemyDealtCards.Add(enemyCard);
 
-            //if (enemyCardColour == "Red")
-            //    EnemyCardColours[i].color = Color.red;
-            //else if (enemyCardColour == "Yellow")
-            //    EnemyCardColours[i].color = Color.yellow;
-            //else if (enemyCardColour == "Green")
-            //    EnemyCardColours[i].color = Color.green;
-            //else if (enemyCardColour == "Blue")
-            //    EnemyCardColours[i].color = Color.blue;
 
-            //for (int e = 0; e < EnemyDeck.Count; e++)
-            //{
-            //    if (enemyCard.GetComponent<CardObject>().id == EnemyDeck[e].GetComponent<CardObject>().id)
-            //    {
-            //        Debug.Log("card removed");
-            //        EnemyDeck.RemoveAt(e);
-            //    }
-            //}
+                //id = (enemyCard.GetComponent<CardObject>().id);
+                //Debug.Log(id);
+                //enemyCardColour = enemyCard.GetComponent<CardObject>().cardColour.ToString();
+                //Debug.Log(enemyCard.GetComponent<CardObject>().cardColour);
+
+                //if (enemyCardColour == "Red")
+                //    EnemyCardColours[i].color = Color.red;
+                //else if (enemyCardColour == "Yellow")
+                //    EnemyCardColours[i].color = Color.yellow;
+                //else if (enemyCardColour == "Green")
+                //    EnemyCardColours[i].color = Color.green;
+                //else if (enemyCardColour == "Blue")
+                //    EnemyCardColours[i].color = Color.blue;
+
+                for (int e = 0; e < EnemyDeck.Count; e++)
+                {
+                    if (enemyCard.GetComponent<CardObject>().id == EnemyDeck[e].GetComponent<CardObject>().id)
+                    {
+                        EnemyDeck.RemoveAt(e);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (playerHealth > enemyHealth)
+                _UI.GameOver("Player");
+            if (playerHealth == enemyHealth)
+                _UI.GameOver("Draw");
+            if (playerHealth < enemyHealth)
+                _UI.GameOver("Enemy");
         }
     }
 
     public IEnumerator ClearCards()
     {
         ClearDealtCards();
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
         DealCards();
     }
     public void ClearDealtCards()
@@ -260,7 +278,7 @@ public class GameManager : GameBehaviour<GameManager>
             //check if block succeeds
             if (_cardPlayed.defenseColours[i].ToString() != "None" && _cardPlayed.defenseColours[i].ToString() == _opponentCard.attackColours[i].ToString())
             {
-                //ASK BRENDAN ABOUT TERNARY OPERATORS
+
 
                 //check if card type is colour specific
                 if (_cardPlayed.attackType == attackType.colourSpecific)

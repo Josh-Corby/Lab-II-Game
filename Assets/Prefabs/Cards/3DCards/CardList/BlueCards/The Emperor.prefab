@@ -168,7 +168,7 @@ MonoBehaviour:
   cardNameText: {fileID: 7128447439098810441}
   cardEffectText: {fileID: 6300898751998184080}
   card: {fileID: 11400000, guid: f11e7110f97266e48b6275305dd739d8, type: 2}
-  id: 0
+  id: 74
   damageAmount: 0
   healAmount: 0
   colourSpecificAmount: 0

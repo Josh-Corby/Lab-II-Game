@@ -6,14 +6,19 @@ using TMPro;
 
 public class UIManager : GameBehaviour<UIManager>
 {
+    [Header("Text")]
     public TMP_Text PlayerHP;
     public TMP_Text EnemyHP;
+    public TMP_Text PlayerDeckCount;
+    public TMP_Text EnemyDeckCount;
 
+    [Header("Canvas Objects")]
     public Canvas GameCanvas;
     public Canvas TitleScreen;
     public GameObject GameOverPanel;
     public TMP_Text victoryText;
 
+    [Header("Audio")]
     public AudioSource SFX;
     public AudioClip gameOverSound;
     public AudioClip victorySound;
@@ -49,6 +54,12 @@ public class UIManager : GameBehaviour<UIManager>
         }
     }
 
+    public void UpdateDeckCount(int count)
+    {
+        PlayerDeckCount.text = "Cards left: " + count.ToString();
+        EnemyDeckCount.text = "Cards left: " + count.ToString();
+    }
+
     public void UpdatePlayerHP(int targetHP)
     {
         PlayerHP.text =targetHP.ToString();
@@ -61,6 +72,7 @@ public class UIManager : GameBehaviour<UIManager>
 
     public void GameOver(string winner)
     {
+        Time.timeScale = 0f;
         GameOverPanel.SetActive(true);
         victoryText.text = (winner + " wins!");
         if(winner == "Player")
@@ -68,7 +80,7 @@ public class UIManager : GameBehaviour<UIManager>
             SFX.clip = victorySound;
             SFX.Play();
         }
-        if(winner == "Enemy")
+        if(winner == "Enemy" || winner == "Draw")
         {
             SFX.clip = gameOverSound;
             SFX.Play();

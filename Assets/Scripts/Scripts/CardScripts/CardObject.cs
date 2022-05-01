@@ -16,9 +16,9 @@ public class CardObject : GameBehaviour
     public TMP_Text cardEffectText;
 
     public Card card;
-
+    public int id;
     [HideInInspector]
-    public int id, damageAmount, healAmount, colourSpecificAmount;
+    public int damageAmount, healAmount, colourSpecificAmount;
     [HideInInspector]
     public string cardName, cardEffect, colourSpecificColour;
 
