@@ -32,8 +32,7 @@ public class GameManager : GameBehaviour<GameManager>
     public int playerHealth;
     [HideInInspector]
     public int enemyHealth;
-    [HideInInspector]
-    public string enemyCardColour;
+
     [HideInInspector]
     public int id;
 
@@ -75,42 +74,17 @@ public class GameManager : GameBehaviour<GameManager>
                 GameObject playerCard = Instantiate(PlayerDeck[rand1], PlayerCardAreas[i].transform);
                 PlayerDealtCards.Add(playerCard);
 
-                for (int p = 0; p < PlayerDeck.Count; p++)
-                {
-                    if (playerCard.GetComponent<CardObject>().id == PlayerDeck[p].GetComponent<CardObject>().id)
-                    {
-                        PlayerDeck.RemoveAt(p);
-                    }
-                }
-                _UI.UpdateDeckCount(PlayerDeck.Count);
-
                 int rand2 = Random.Range(0, PlayerDeck.Count);
                 GameObject enemyCard = Instantiate(EnemyDeck[rand2], EnemyCardAreas[i].transform);
                 enemyCard.transform.rotation = EnemyCardAreas[i].transform.rotation;
                 EnemyDealtCards.Add(enemyCard);
 
+                StartCoroutine(CardSetup(playerCard, enemyCard));
 
-                //id = (enemyCard.GetComponent<CardObject>().id);
-                //Debug.Log(id);
-                //enemyCardColour = enemyCard.GetComponent<CardObject>().cardColour.ToString();
-                //Debug.Log(enemyCard.GetComponent<CardObject>().cardColour);
-
-                //if (enemyCardColour == "Red")
-                //    EnemyCardColours[i].color = Color.red;
-                //else if (enemyCardColour == "Yellow")
-                //    EnemyCardColours[i].color = Color.yellow;
-                //else if (enemyCardColour == "Green")
-                //    EnemyCardColours[i].color = Color.green;
-                //else if (enemyCardColour == "Blue")
-                //    EnemyCardColours[i].color = Color.blue;
-
-                for (int e = 0; e < EnemyDeck.Count; e++)
-                {
-                    if (enemyCard.GetComponent<CardObject>().id == EnemyDeck[e].GetComponent<CardObject>().id)
-                    {
-                        EnemyDeck.RemoveAt(e);
-                    }
-                }
+                //enemyCard = EnemyDealtCards[i].GetComponent<CardObject>();
+                //Debug.Log(EnemyDealtCards[i].GetComponent<CardObject>().cardColour);
+                //Debug.Log(EnemyDealtCards[i].GetComponent<CardObject>().cardEffect);
+                //Debug.Log(EnemyCardColours[i].color);
             }
         }
         else
@@ -122,8 +96,49 @@ public class GameManager : GameBehaviour<GameManager>
             if (playerHealth < enemyHealth)
                 _UI.GameOver("Enemy");
         }
+
+        
     }
 
+    IEnumerator CardSetup(GameObject playerCard, GameObject enemyCard)
+    {
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < PlayerDeck.Count; i++)
+        {
+            if (playerCard.GetComponent<CardObject>().id == PlayerDeck[i].GetComponent<CardObject>().id)
+            {
+                PlayerDeck.RemoveAt(i);
+            }
+            if (enemyCard.GetComponent<CardObject>().id == EnemyDeck[i].GetComponent<CardObject>().id)
+            {
+                EnemyDeck.RemoveAt(i);
+                
+            }
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            EnemyCardColours[i].color = GetCardColour(EnemyDealtCards[i].GetComponent<CardObject>().cardColour);
+        }
+        _UI.UpdateDeckCount(PlayerDeck.Count);
+    }
+    public Color GetCardColour(cardColour colour)
+    {
+        Debug.Log(colour);
+        switch (colour)
+        {
+            case cardColour.Red:
+                return Color.red;
+            case cardColour.Green:
+                return Color.green;
+            case cardColour.Blue:
+                return Color.blue;
+            case cardColour.Yellow:
+                return Color.yellow;
+            default:
+                return Color.white;
+        }
+    }
     public IEnumerator ClearCards()
     {
         ClearDealtCards();

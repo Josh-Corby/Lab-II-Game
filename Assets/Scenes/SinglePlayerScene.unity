@@ -6148,7 +6148,6 @@ MonoBehaviour:
   enemyHealthBar: {fileID: 176642434}
   playerHealth: 30
   enemyHealth: 30
-  enemyCardColour: 
   id: 0
   SFX: {fileID: 555258768}
   dealCards: {fileID: 8300000, guid: aaf99371d65e7224596181d41c83a0d2, type: 3}
