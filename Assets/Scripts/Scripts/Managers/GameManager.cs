@@ -438,90 +438,144 @@ public class GameManager : GameBehaviour<GameManager>
             }
         }
     }
-        public void Success(string target, int damage, int heal)
+    public void Success(string target, int damage, int heal)
+    {
+        if (target == "Player")
         {
             if (damage != 0)
             {
                 SFX.clip = damageSound;
                 SFX.Play();
-
-                if (target == "Player")
-                {
-                    DamagePlayer(damage);
-                }
-
-
-                if (target == "Enemy")
-                    DamageEnemy(damage);
             }
+            Debug.Log("Enemy Card Success");
+            playerHealth -= damage;
+            playerHealthBar.SetHealth(playerHealth);
+            if (playerHealth <= 0)
+                _UI.GameOver("Enemy");
 
             if (heal != 0)
             {
                 SFX.clip = healSound;
                 SFX.Play();
-
-                if (target == "Enemy")
-                    HealPlayer(heal);
-
-                if (target == "Player")
-                    HealEnemy(heal);
             }
-
-        }
-
-        void DamagePlayer(int damage)
-        {
-            playerHealth -= damage;
-            SetHealth("Player");
-            if (playerHealth <= 0)
-                _UI.GameOver("Enemy");
-        }
-
-        void HealPlayer(int heal)
-        {
-            playerHealth += heal;
-            if (playerHealth >= 30)
-            {
-                playerHealth = 30;
-                SetHealth("Player");
-            }
-        }
-
-        void DamageEnemy(int damage)
-        {
-            enemyHealth -= damage;
-            SetHealth("Enemy");
-            if (enemyHealth <= 0)
-                _UI.GameOver("Player");
-        }
-
-        void HealEnemy(int heal)
-        {
             enemyHealth += heal;
             if (enemyHealth >= 30)
-            {
                 enemyHealth = 30;
-                SetHealth("Enemy");
-            }
+            enemyHealthBar.SetHealth(enemyHealth);
+            _UI.UpdateHP(target, playerHealth);
+            Debug.Log(playerHealth);
         }
-
-        void SetHealth(string target)
+        if (target == "Enemy")
         {
-            if (target == "Player")
+            if (damage != 0)
             {
-                playerHealthBar.SetHealth(playerHealth);
-                _UI.UpdateHP("Player", playerHealth);
+                SFX.clip = damageSound;
+                SFX.Play();
             }
+            Debug.Log("Player Card Success");
+            enemyHealth -= damage;
+            enemyHealthBar.SetHealth(enemyHealth);
+            if (enemyHealth <= 0)
+                _UI.GameOver("Player");
 
-            if (target == "Enemy")
+            if (heal != 0)
             {
-                enemyHealthBar.SetHealth(enemyHealth);
-                _UI.UpdateHP("Enemy", enemyHealth);
+                SFX.clip = healSound;
+                SFX.Play();
             }
+            enemyHealth += heal;
+            playerHealth += heal;
+            playerHealthBar.SetHealth(playerHealth);
+            if (playerHealth >= 30)
+                playerHealth = 30;
+            _UI.UpdateHP(target, enemyHealth);
+            Debug.Log(enemyHealth);
+        }
+    }
+    //public void Success(string target, int damage, int heal)
+    //{
+    //    if (damage != 0)
+    //    {
+    //        SFX.clip = damageSound;
+    //        SFX.Play();
+
+    //        if (target == "Player")
+    //        {
+    //            DamagePlayer(damage);
+    //        }
+
+
+    //        if (target == "Enemy")
+    //            DamageEnemy(damage);
+    //    }
+
+    //    if (heal != 0)
+    //    {
+    //        SFX.clip = healSound;
+    //        SFX.Play();
+
+    //        if (target == "Enemy")
+    //            HealPlayer(heal);
+
+    //        if (target == "Player")
+    //            HealEnemy(heal);
+    //    }
+
+    //}
+
+    //void DamagePlayer(int damage)
+    //{
+    //    playerHealth -= damage;
+    //    SetHealth("Player");
+    //    if (playerHealth <= 0)
+    //        _UI.GameOver("Enemy");
+    //}
+
+    //void HealPlayer(int heal)
+    //{
+    //    playerHealth += heal;
+    //    if (playerHealth >= 30)
+    //    {
+    //        playerHealth = 30;
+    //        SetHealth("Player");
+    //    }
+    //}
+
+    //void DamageEnemy(int damage)
+    //{
+    //    enemyHealth -= damage;
+    //    SetHealth("Enemy");
+    //    if (enemyHealth <= 0)
+    //        _UI.GameOver("Player");
+    //}
+
+    //void HealEnemy(int heal)
+    //{
+    //    enemyHealth += heal;
+    //    if (enemyHealth >= 30)
+    //    {
+    //        enemyHealth = 30;
+    //        SetHealth("Enemy");
+    //    }
+    //}
+
+    void SetHealth(string target)
+    {
+        if (target == "Player")
+        {
+            playerHealthBar.SetHealth(playerHealth);
+            _UI.UpdateHP("Player", playerHealth);
         }
 
-        #endregion
+        if (target == "Enemy")
+        {
+            enemyHealthBar.SetHealth(enemyHealth);
+            _UI.UpdateHP("Enemy", enemyHealth);
+        }
+    }
+
+    #endregion
 
 
-    
+
 }
