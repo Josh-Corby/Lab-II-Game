@@ -10,7 +10,6 @@ public enum cardColour
     Red,
     Green,
     Blue
-    
 }
 
 public enum type
@@ -34,6 +33,7 @@ public enum attackType
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
 {
+    //values to send to card objects
     public cardColour cardColour;
     public type type;
     public effectType effectType;
@@ -46,7 +46,7 @@ public class Card : ScriptableObject
     public cardColour[] defenseColours;
 
     public string colourSpecificColour;
-    public int colourSpecificAmount;
+    public int effectAmount;
     public string cardEffect;
     public int damageAmount;
     public int healAmount;

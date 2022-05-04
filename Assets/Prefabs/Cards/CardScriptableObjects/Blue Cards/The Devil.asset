@@ -16,12 +16,12 @@ MonoBehaviour:
   type: 0
   effectType: 0
   attackType: 1
-  id: 7
+  id: 73
   cardName: The Devil
   attackColours: 00000000000000000000000004000000
   defenseColours: 00000000020000000000000000000000
+  colourSpecificColour: 
+  colourSpecificAmount: 0
   cardEffect: 3 damage on hit, ignore armour
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

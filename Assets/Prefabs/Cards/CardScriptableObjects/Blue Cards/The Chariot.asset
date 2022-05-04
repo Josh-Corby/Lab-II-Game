@@ -16,12 +16,12 @@ MonoBehaviour:
   type: 0
   effectType: 1
   attackType: 0
-  id: 73
+  id: 72
   cardName: The Chariot
   attackColours: 00000000020000000000000004000000
   defenseColours: 00000000000000000000000000000000
+  colourSpecificColour: 
+  colourSpecificAmount: 0
   cardEffect: 3 damage per hit
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

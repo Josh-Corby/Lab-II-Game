@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using DG.Tweening;
 public class CardObject : GameBehaviour
 {
     private Rigidbody rigidbody;
@@ -18,7 +18,7 @@ public class CardObject : GameBehaviour
     public Card card;
     public int id;
     [HideInInspector]
-    public int damageAmount, healAmount, colourSpecificAmount;
+    public int damageAmount, healAmount, effectAmount;
     [HideInInspector]
     public string cardName, cardEffect, colourSpecificColour;
 
@@ -47,44 +47,43 @@ public class CardObject : GameBehaviour
         rigidbody = GetComponent<Rigidbody>();
         startYPos = 0; // Better to not hardcode that one but whatever
 
+        #region Card Values
+        //values from scriptable objects assigned to card object
         id = card.id;
         cardName = card.cardName;
         cardNameText.text = card.cardName;
         cardEffectText.text = card.cardEffect;
-
         attackColours = card.attackColours;
         defenseColours = card.defenseColours;
-        /*
-        for(int i=0; i<4; i++)
-        {
-            attackColours[i] = card.attackColours[i];
-            defenseColours[i] = card.defenseColours[i];
-        }
-        */
-
         cardEffect = card.cardEffect;
         damageAmount = card.damageAmount;
         healAmount = card.healAmount;
-
         cardColour = card.cardColour;
         type = card.type;
         effectType = card.effectType;
         attackType = card.attackType;
-
-        colourSpecificAmount = card.colourSpecificAmount;
+        effectAmount = card.effectAmount;
         colourSpecificColour = card.colourSpecificColour;
-
+        #endregion
         playParticles = gameObject.GetComponentInChildren<ParticleSystem>();
-        
+
         //attackColour = card.attackColour;
         //defenseColour = card.defenseColour;
+
+        /*
+        for(int i=0; i<4; i++)
+        {
+        attackColours[i] = card.attackColours[i];
+         defenseColours[i] = card.defenseColours[i];
+        }
+        */
     }
 
     private void OnMouseDrag()
     {
         if (canDrag == true && _PCS.isOccupied == false)
         {
-            gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
             Vector3 newWorldPosition = new Vector3(board.CurrentMousePosition.x, startYPos + 1, board.CurrentMousePosition.z);
 
             var difference = newWorldPosition - transform.position;
@@ -104,7 +103,7 @@ public class CardObject : GameBehaviour
 
     private void OnMouseExit()
     {
-        gameObject.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
         //gameObject.transform.Rotate(0f, 0f, 0f, Space.Self);
     }
     private void OnCollisionEnter(Collision collision)
@@ -119,7 +118,8 @@ public class CardObject : GameBehaviour
                 canDrag = false;
                 _PCS.isOccupied = true;
                 PlayParticles();
-                Debug.Log("Player plays: " + card.cardName);
+                rigidbody.useGravity = false;
+                //Debug.Log("Player plays: " + card.cardName);
             }
         }
     }

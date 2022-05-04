@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: Temperance
   attackColours: 01000000020000000000000004000000
   defenseColours: 00000000000000000000000000000000
-  cardEffect: 3 damage on hit, iff all 3 hit deal 6 damage
+  colourSpecificColour: 
+  colourSpecificAmount: 0
+  cardEffect: 3 damage on hit, if all 3 hit deal 6 damage
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}
