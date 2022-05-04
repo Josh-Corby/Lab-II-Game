@@ -16,9 +16,9 @@ public class CardObject : GameBehaviour
     public TMP_Text cardEffectText;
 
     public Card card;
-    public int id;
+    
     [HideInInspector]
-    public int damageAmount, healAmount, effectAmount;
+    public int id, damageAmount, healAmount, effectAmount;
     [HideInInspector]
     public string cardName, cardEffect, colourSpecificColour;
 
@@ -97,13 +97,17 @@ public class CardObject : GameBehaviour
 
     private void OnMouseEnter()
     {
+        rigidbody.useGravity = false;
         gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        gameObject.transform.DORotate(new Vector3(-18.295f, -180, 0), 0.2f);
         //gameObject.transform.Rotate(0f, 180f, 0f, Space.Self);
     }
 
     private void OnMouseExit()
     {
+        rigidbody.useGravity = true;
         gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+        gameObject.transform.DORotate(new Vector3(-90, -90, -90), 0.2f);
         //gameObject.transform.Rotate(0f, 0f, 0f, Space.Self);
     }
     private void OnCollisionEnter(Collision collision)

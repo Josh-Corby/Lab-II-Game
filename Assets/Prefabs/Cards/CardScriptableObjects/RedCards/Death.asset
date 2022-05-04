@@ -21,7 +21,7 @@ MonoBehaviour:
   attackColours: 00000000020000000300000000000000
   defenseColours: 00000000000000000000000000000000
   colourSpecificColour: Red
-  colourSpecificAmount: 6
+  effectAmount: 6
   cardEffect: 3 damage on hit, if green hits deal 6
   damageAmount: 3
   healAmount: 0

@@ -12,6 +12,9 @@ public class UIManager : GameBehaviour<UIManager>
     public TMP_Text PlayerDeckCount;
     public TMP_Text EnemyDeckCount;
 
+    public TMP_Text PlayerHealthChange;
+    public TMP_Text EnemyHealthChange;
+
     [Header("Canvas Objects")]
     public Canvas GameCanvas;
     public Canvas TitleScreen;
@@ -69,6 +72,30 @@ public class UIManager : GameBehaviour<UIManager>
     {
         EnemyHP.text = targetHP.ToString();
     }
+
+    //public void HealthChangeText(string target, string type, int value)
+    //{
+    //    if(type == "Attack")
+    //    {
+    //        if(target == "Player")
+    //        {
+    //            PlayerHealthChange.color = Color.red;
+    //            PlayerHealthChange.text = value.ToString();
+    //        }
+
+    //        if(target == "Enemy")
+    //        {
+    //            EnemyHealthChange.color = Color.red;
+    //            EnemyHealthChange.text = value.ToString();
+    //        }
+    //    }
+        
+    //    if(type == "Heal")
+    //    {
+
+    //    }
+
+    //}
 
     public void GameOver(string winner)
     {

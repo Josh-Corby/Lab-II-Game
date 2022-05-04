@@ -15,13 +15,13 @@ MonoBehaviour:
   cardColour: 1
   type: 0
   effectType: 0
-  attackType: 2
+  attackType: 0
   id: 5
   cardName: Temperance
   attackColours: 01000000020000000000000004000000
   defenseColours: 00000000000000000000000000000000
   colourSpecificColour: 
-  colourSpecificAmount: 0
+  effectAmount: 6
   cardEffect: 3 damage on hit, if all 3 hit deal 6 damage
   damageAmount: 3
   healAmount: 0

@@ -21,7 +21,7 @@ MonoBehaviour:
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000300000004000000
   colourSpecificColour: Yellow
-  colourSpecificAmount: 3
+  effectAmount: 3
   cardEffect: 3 damage if yellow card attacks
   damageAmount: 3
   healAmount: 0
