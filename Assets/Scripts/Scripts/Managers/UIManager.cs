@@ -97,23 +97,40 @@ public class UIManager : GameBehaviour<UIManager>
 
     //}
 
-    public void GameOver(string winner)
+    //public void GameOver(string winner)
+    //{
+    //    Time.timeScale = 0f;
+    //    GameOverPanel.SetActive(true);
+    //    victoryText.text = (winner + " wins!");
+    //    if(winner == "Player")
+    //    {
+    //        SFX.clip = victorySound;
+    //        SFX.Play();
+    //    }
+    //    if(winner == "Enemy" || winner == "Draw")
+    //    {
+    //        SFX.clip = gameOverSound;
+    //        SFX.Play();
+    //    }
+    //}
+
+    public IEnumerator GameOver(string winner)
     {
+        yield return new WaitForSeconds(1f);
         Time.timeScale = 0f;
         GameOverPanel.SetActive(true);
         victoryText.text = (winner + " wins!");
-        if(winner == "Player")
+        if (winner == "Player")
         {
             SFX.clip = victorySound;
             SFX.Play();
         }
-        if(winner == "Enemy" || winner == "Draw")
+        if (winner == "Enemy" || winner == "Draw")
         {
             SFX.clip = gameOverSound;
             SFX.Play();
         }
     }
-
     public void Quit()
     {
         Application.Quit();

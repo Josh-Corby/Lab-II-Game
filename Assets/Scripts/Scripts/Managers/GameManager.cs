@@ -11,10 +11,18 @@ public class GameManager : GameBehaviour<GameManager>
     public GameObject PlayerArea;
     public GameObject PlayerDiscardPile;
     public HealthBar playerHealthBar;
-
     public GameObject EnemyArea;
     public GameObject EnemyDiscardPile;
     public HealthBar enemyHealthBar;
+
+    [Header("Particles")]
+    public ParticleSystem PlayerShieldSpark;
+    public ParticleSystem PlayerSwordSpark;
+    public ParticleSystem EnemyShieldSpark;
+    public ParticleSystem EnemySwordSpark;
+    public ParticleSystem PlayerBurnParticles;
+    public ParticleSystem EnemyBurnParticles;
+
     [Header("Vectors")]
     public Vector3 PCCombatSpot;
     public Vector3 PCCombatMove;
@@ -52,6 +60,10 @@ public class GameManager : GameBehaviour<GameManager>
     public AudioClip cardPlaySound;
     public AudioClip damageSound;
     public AudioClip healSound;
+    public AudioClip hoverSound;
+    public AudioClip placeCard;
+    public AudioClip whooshSound;
+    public AudioClip burnSound;
 
     #endregion
 
@@ -144,17 +156,28 @@ public class GameManager : GameBehaviour<GameManager>
     //fetch the colour from cardcomponent
     public Color GetCardColour(cardColour colour)
     {
-        //Debug.Log(colour);
+        Color yellow;
+        Color red;
+        Color green;
+        Color blue;
+
+
+
+        ColorUtility.TryParseHtmlString("#FFF1B0", out yellow);
+        ColorUtility.TryParseHtmlString("#ADA7FF", out blue);
+        ColorUtility.TryParseHtmlString("#AAEB9A", out green);
+        ColorUtility.TryParseHtmlString("#A04242", out red);
+        Debug.Log(colour);
         switch (colour)
         {
             case cardColour.Red:
-                return Color.red;
+                return red;
             case cardColour.Green:
-                return Color.green;
+                return green;
             case cardColour.Blue:
-                return Color.blue;
+                return blue;
             case cardColour.Yellow:
-                return Color.yellow;
+                return yellow;
             default:
                 return Color.white;
         }
@@ -191,7 +214,8 @@ public class GameManager : GameBehaviour<GameManager>
     //play a random enemy card when the player has played a card
     public IEnumerator PlayEnemyCard(CardObject _playerCard)
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1f);
+        PlaceSound();
         int rand = Random.Range(1, 3);
         enemyCard = EnemyDealtCards[rand].GetComponent<CardObject>();
         enemyCard.transform.position = _ECS.transform.position;
@@ -202,14 +226,18 @@ public class GameManager : GameBehaviour<GameManager>
 
         //enemyAttackColour = enemyCardToPlay.card.attackColour;
         //enemyDefenseColour = enemyCardToPlay.card.defenseColour;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1f);
         StartCoroutine(BattlePhase(_playerCard));
     }
     public IEnumerator DiscardCards(List<GameObject> cardArea, GameObject discardpile)
     {
         for (int i = 0; i <= 2; i++)
         {
-            cardArea[i].gameObject.GetComponent<CardObject>().PlayParticles();
+            PlayerBurnParticles.Play();
+            EnemyBurnParticles.Play();
+            SFX.clip = burnSound;
+            SFX.Play();
+            //cardArea[i].gameObject.GetComponent<CardObject>().PlayParticles();
         }
         yield return new WaitForSeconds(0.5f);
         for (int i = 0; i <= 2; i++)
@@ -280,31 +308,48 @@ public class GameManager : GameBehaviour<GameManager>
 
     public void PlayerAttackCheck(CardObject _playerCard)
     {
-        StartCoroutine(CardAnimation(_playerCard, PCCombatSpot, PCCombatMove));
-        //StartCoroutine(PlayerCardAnimation(_playerCard));
+        
         if (_playerCard.type == type.Attack)
+        {
+            StartCoroutine(CardAnimation(_playerCard, PCCombatSpot, PCCombatMove, PlayerSwordSpark));
             Attack(_playerCard, enemyCard, "Enemy");
+        }
+            
         if (_playerCard.type == type.Defend)
+        {
+            StartCoroutine(CardAnimation(_playerCard, PCCombatSpot, PCCombatMove, PlayerShieldSpark));
             Defend(_playerCard, enemyCard, "Enemy");
+        }
+            
     }
 
     public void EnemyAttackCheck(CardObject _playerCard)
     {
-        StartCoroutine(CardAnimation(enemyCard, ECCombatSpot, ECCombatMove));
-        //StartCoroutine(EnemyCardAnimation(enemyCard));
+        
         if (enemyCard.type == type.Attack)
+        {
+            StartCoroutine(CardAnimation(enemyCard, ECCombatSpot, ECCombatMove, EnemySwordSpark));
             Attack(enemyCard, _playerCard, "Player");
+        }
+            
         if (enemyCard.type == type.Defend)
+        {
+            StartCoroutine(CardAnimation(enemyCard, ECCombatSpot, ECCombatMove, EnemyShieldSpark));
             Defend(enemyCard, _playerCard, "Player");
+        }
+            
     }
 
-    IEnumerator CardAnimation(CardObject card, Vector3 startPos, Vector3 movePos)
+    IEnumerator CardAnimation(CardObject card, Vector3 startPos, Vector3 movePos, ParticleSystem sparks)
     {
+        WhooshSound();
         card.transform.DOMoveX(movePos.x, .2f, false);
         yield return new WaitForSeconds(0.2f);
+        sparks.Play();
         card.transform.DOMoveX(startPos.x, .2f, false);
         yield return new WaitForSeconds(0.1f);
     }
+
     /*
     IEnumerator PlayerCardAnimation(CardObject _playerCard)
     {
@@ -345,6 +390,7 @@ public class GameManager : GameBehaviour<GameManager>
 
     public void Attack(CardObject _cardPlayed, CardObject _opponentCard, string target)
     {
+
         if (_cardPlayed.attackType == attackType.pierce)
         {
             Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
@@ -372,40 +418,45 @@ public class GameManager : GameBehaviour<GameManager>
         }
         for (int i = 0; i < _cardPlayed.attackColours.Length; i++)
         {
-            //check if card type is colour specific
-            if (_cardPlayed.attackType == attackType.colourSpecific)
+            if (_cardPlayed.attackColours[i].ToString() != "None")
             {
-                for (int c = 0; c < 4; c++)
+                //check if card type is colour specific
+                if (_cardPlayed.attackType == attackType.colourSpecific)
                 {
-                    //check if attack colour is the same as colour specific colour
-                    if (_cardPlayed.attackColours[c].ToString() == _cardPlayed.colourSpecificColour
-                       && _cardPlayed.attackColours[c].ToString() != _opponentCard.defenseColours[c].ToString())
+                    for (int c = 0; c < 4; c++)
                     {
-                        // run success with colour specific effect
-                        Success(target, _cardPlayed.effectAmount, _cardPlayed.healAmount);
-                        return;
+                        //check if attack colour is the same as colour specific colour
+                        if (_cardPlayed.attackColours[c].ToString() == _cardPlayed.colourSpecificColour
+                           && _cardPlayed.attackColours[c].ToString() != _opponentCard.defenseColours[c].ToString())
+                        {
+                            // run success with colour specific effect
+                            Success(target, _cardPlayed.effectAmount, _cardPlayed.healAmount);
+                            return;
+                        }
                     }
                 }
-            }
-            if (_cardPlayed.attackColours[i] != _opponentCard.defenseColours[i])
-            {
 
-                Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
-                if (_cardPlayed.effectType == effectType.Single) return;
+                if (_cardPlayed.attackColours[i] != _opponentCard.defenseColours[i])
+                {
+
+                    Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
+                    if (_cardPlayed.effectType == effectType.Single) return;
+                }
             }
         }
     }
 
     public void Defend(CardObject _cardPlayed, CardObject _opponentCard, string target)
     {
+
         for (int i = 0; i < 4; i++)
         {
             //check if block succeeds
             if (_cardPlayed.defenseColours[i].ToString() != "None")
             {         
-                if (_cardPlayed.defenseColours[i].ToString() == _opponentCard.attackColours[i].ToString())
+                if (_cardPlayed.defenseColours[i] == _opponentCard.attackColours[i])
                 {
-                    Debug.Log("Block success");
+                    Debug.Log("block successful");
                     if (_cardPlayed.attackType == attackType.normal)
                     {
                         if (_cardPlayed.effectType == effectType.Multi)
@@ -416,7 +467,6 @@ public class GameManager : GameBehaviour<GameManager>
                             Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
                             return;
                         }
-
                     }
                     //check if card type is colour specific
                     if (_cardPlayed.attackType == attackType.colourSpecific)
@@ -438,6 +488,7 @@ public class GameManager : GameBehaviour<GameManager>
             }
         }
     }
+
     public void Success(string target, int damage, int heal)
     {
         if (target == "Player")
@@ -446,24 +497,24 @@ public class GameManager : GameBehaviour<GameManager>
             {
                 SFX.clip = damageSound;
                 SFX.Play();
+                playerHealth -= damage;
+                playerHealthBar.SetHealth(playerHealth);
+                _UI.UpdateHP("Player", playerHealth);
+                if (playerHealth <= 0)
+                    StartCoroutine(_UI.GameOver("Enemy"));         
             }
-            Debug.Log("Enemy Card Success");
-            playerHealth -= damage;
-            playerHealthBar.SetHealth(playerHealth);
-            if (playerHealth <= 0)
-                _UI.GameOver("Enemy");
-
+ 
             if (heal != 0)
             {
                 SFX.clip = healSound;
                 SFX.Play();
+                enemyHealth += heal;
+                if (enemyHealth >= 30)
+                    enemyHealth = 30;
+                enemyHealthBar.SetHealth(enemyHealth);
+                _UI.UpdateHP("Enemy", enemyHealth);
             }
-            enemyHealth += heal;
-            if (enemyHealth >= 30)
-                enemyHealth = 30;
-            enemyHealthBar.SetHealth(enemyHealth);
-            _UI.UpdateHP(target, playerHealth);
-            Debug.Log(playerHealth);
+
         }
         if (target == "Enemy")
         {
@@ -471,25 +522,25 @@ public class GameManager : GameBehaviour<GameManager>
             {
                 SFX.clip = damageSound;
                 SFX.Play();
+                enemyHealth -= damage;
+                enemyHealthBar.SetHealth(enemyHealth);
+                _UI.UpdateHP("Enemy", enemyHealth);
+                if (enemyHealth <= 0)
+                    StartCoroutine(_UI.GameOver("Player"));
             }
-            Debug.Log("Player Card Success");
-            enemyHealth -= damage;
-            enemyHealthBar.SetHealth(enemyHealth);
-            if (enemyHealth <= 0)
-                _UI.GameOver("Player");
+            
+            
 
             if (heal != 0)
             {
                 SFX.clip = healSound;
                 SFX.Play();
+                playerHealth += heal;
+                playerHealthBar.SetHealth(playerHealth);
+                if (playerHealth >= 30)
+                    playerHealth = 30;
+                _UI.UpdateHP("Player", playerHealth);
             }
-            enemyHealth += heal;
-            playerHealth += heal;
-            playerHealthBar.SetHealth(playerHealth);
-            if (playerHealth >= 30)
-                playerHealth = 30;
-            _UI.UpdateHP(target, enemyHealth);
-            Debug.Log(enemyHealth);
         }
     }
     //public void Success(string target, int damage, int heal)
@@ -576,6 +627,23 @@ public class GameManager : GameBehaviour<GameManager>
 
     #endregion
 
+    #region Audio Functions
+    public void HoverSound()
+    {
+        SFX.clip = hoverSound;
+        SFX.Play();
+    }
 
+    public void PlaceSound()
+    {
+        SFX.clip = placeCard;
+        SFX.Play();
+    }
 
+    public void WhooshSound()
+    {
+        SFX.clip = whooshSound;
+        SFX.Play();
+    }
+    #endregion
 }

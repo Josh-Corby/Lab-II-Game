@@ -14,9 +14,9 @@ public class CardObject : GameBehaviour
     private ParticleSystem playParticles;
     public TMP_Text cardNameText;
     public TMP_Text cardEffectText;
-
     public Card card;
-    
+
+
     [HideInInspector]
     public int id, damageAmount, healAmount, effectAmount;
     [HideInInspector]
@@ -97,6 +97,7 @@ public class CardObject : GameBehaviour
 
     private void OnMouseEnter()
     {
+        _GM.HoverSound();
         rigidbody.useGravity = false;
         gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         gameObject.transform.DORotate(new Vector3(-18.295f, -180, 0), 0.2f);
@@ -116,12 +117,13 @@ public class CardObject : GameBehaviour
         {
             if (collision.gameObject.name == "PlayerDropZone" && !played)
             {
+                _GM.PlaceSound();
                 StartCoroutine(_GM.PlayEnemyCard(this));
                 gameObject.transform.position = _PCS.transform.position;
                 played = true;
                 canDrag = false;
                 _PCS.isOccupied = true;
-                PlayParticles();
+                //PlayParticles();
                 rigidbody.useGravity = false;
                 //Debug.Log("Player plays: " + card.cardName);
             }
