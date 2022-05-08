@@ -82,7 +82,7 @@ public class CardObject : GameBehaviour
     private void OnMouseDrag()
     {
         if (canDrag == true && _PCS.isOccupied == false)
-        {
+        {  
             gameObject.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
             Vector3 newWorldPosition = new Vector3(board.CurrentMousePosition.x, startYPos + 1, board.CurrentMousePosition.z);
 
@@ -98,8 +98,8 @@ public class CardObject : GameBehaviour
     private void OnMouseEnter()
     {
         _GM.HoverSound();
-        rigidbody.useGravity = false;
-        gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        //rigidbody.useGravity = false;
+        gameObject.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
         gameObject.transform.DORotate(new Vector3(-18.295f, -180, 0), 0.2f);
         //gameObject.transform.Rotate(0f, 180f, 0f, Space.Self);
     }
@@ -119,12 +119,12 @@ public class CardObject : GameBehaviour
             {
                 _GM.PlaceSound();
                 StartCoroutine(_GM.PlayEnemyCard(this));
+                
                 gameObject.transform.position = _PCS.transform.position;
                 played = true;
                 canDrag = false;
                 _PCS.isOccupied = true;
                 //PlayParticles();
-                rigidbody.useGravity = false;
                 //Debug.Log("Player plays: " + card.cardName);
             }
         }

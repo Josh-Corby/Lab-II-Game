@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardColour: 2
   type: 1
-  effectType: 0
-  attackType: 2
+  effectType: 1
+  attackType: 0
   id: 43
   cardName: The World
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000300000004000000
   colourSpecificColour: Green
-  effectAmount: 3
-  cardEffect: 3 damage if green card attacks
-  damageAmount: 3
-  healAmount: 0
+  effectAmount: 0
+  cardEffect: Heal 2 health for each successful block.
+  damageAmount: 0
+  healAmount: 2

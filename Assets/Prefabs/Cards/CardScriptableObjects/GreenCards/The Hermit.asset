@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Hermit
   attackColours: 00000000000000000000000000000000
   defenseColours: 00000000000000000300000000000000
-  cardEffect: Deal 6 damage on block
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Deal 6 damage if a block succeeds.
   damageAmount: 6
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

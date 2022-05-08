@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Heirophant
   attackColours: 00000000000000000000000004000000
   defenseColours: 00000000000000000300000000000000
-  cardEffect: 3 damage on hit
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Deal 3 damage if an attack succeeds.
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

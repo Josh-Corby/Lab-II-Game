@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Chariot
   attackColours: 00000000020000000000000004000000
   defenseColours: 00000000000000000000000000000000
-  cardEffect: 3 damage per hit
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Deal 3 damage for each successful attack.
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

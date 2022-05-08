@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Emperor
   attackColours: 01000000020000000300000004000000
   defenseColours: 00000000000000000000000000000000
-  cardEffect: 1 damager per hit
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Deal 1 damage for each successful attack.
   damageAmount: 1
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

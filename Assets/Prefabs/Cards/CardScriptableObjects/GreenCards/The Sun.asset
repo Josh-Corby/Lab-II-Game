@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Sun
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000000000000000000
-  cardEffect: on block deal 3 damage
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Deal 3 damage if a block succeeds.
   damageAmount: 3
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

@@ -21,7 +21,7 @@ MonoBehaviour:
   attackColours: 00000000000000000000000004000000
   defenseColours: 00000000020000000000000000000000
   colourSpecificColour: 
-  colourSpecificAmount: 0
-  cardEffect: 3 damage on hit, ignore armour
-  damageAmount: 3
+  effectAmount: 0
+  cardEffect: Deal 2 damage if an attack succeeds. Ignore armour.
+  damageAmount: 2
   healAmount: 0

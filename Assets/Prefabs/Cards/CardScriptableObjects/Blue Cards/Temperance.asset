@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardColour: 4
   type: 0
-  effectType: 0
+  effectType: 1
   attackType: 0
   id: 71
   cardName: Temperance
   attackColours: 01000000000000000300000004000000
   defenseColours: 00000000000000000000000000000000
   colourSpecificColour: 
-  effectAmount: 6
-  cardEffect: 3 damage on hit, if all 3 hit deal 6 damage
-  damageAmount: 3
+  effectAmount: 0
+  cardEffect: Deal 2 damage for each successful attack.
+  damageAmount: 2
   healAmount: 0

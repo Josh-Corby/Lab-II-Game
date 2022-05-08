@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Lovers
   attackColours: 00000000020000000000000000000000
   defenseColours: 00000000000000000000000004000000
-  cardEffect: heal 3 hp on hit
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Heal 3 health if an attack succeeds.
   damageAmount: 0
   healAmount: 3
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

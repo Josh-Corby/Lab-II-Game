@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Magician
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000000000000000000
-  cardEffect: 3 hp per block
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Heal 3 health for each successful block.
   damageAmount: 0
   healAmount: 3
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

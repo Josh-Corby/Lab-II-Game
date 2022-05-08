@@ -80,10 +80,10 @@ public class GameManager : GameBehaviour<GameManager>
         enemyHealth = 30;
         enemyHealthBar.SetMaxHealth(enemyHealth);
 
-        DealCards();
+        StartCoroutine(DealCards());
     }
 
-    public void DealCards()
+    public IEnumerator DealCards()
     {
         _PCS.isOccupied = false;
         SFX.clip = dealCardSound;
@@ -113,6 +113,7 @@ public class GameManager : GameBehaviour<GameManager>
                 //Debug.Log(EnemyDealtCards[i].GetComponent<CardObject>().cardColour);
                 //Debug.Log(EnemyDealtCards[i].GetComponent<CardObject>().cardEffect);
                 //Debug.Log(EnemyCardColours[i].color);
+                yield return new WaitForSeconds(0.05f);
             }
         }
 
@@ -187,7 +188,7 @@ public class GameManager : GameBehaviour<GameManager>
         //clear the cards from the table and draw more cards
         ClearDealtCards();
         yield return new WaitForSeconds(2f);
-        DealCards();
+        StartCoroutine(DealCards());
     }
     public void ClearDealtCards()
     {
@@ -214,14 +215,23 @@ public class GameManager : GameBehaviour<GameManager>
     //play a random enemy card when the player has played a card
     public IEnumerator PlayEnemyCard(CardObject _playerCard)
     {
+        //disable player card colliders
+        for (int i = 0; i < PlayerDealtCards.Count; i++)
+        {
+            PlayerDealtCards[i].gameObject.GetComponent<Collider>().enabled = false;
+            PlayerDealtCards[i].gameObject.GetComponent<Rigidbody>().useGravity = false;
+        }
+
         yield return new WaitForSeconds(1f);
         PlaceSound();
+
         int rand = Random.Range(1, 3);
         enemyCard = EnemyDealtCards[rand].GetComponent<CardObject>();
         enemyCard.transform.position = _ECS.transform.position;
         enemyCard.transform.rotation = _ECS.transform.rotation;
         //enemyCard.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
         enemyCard.GetComponent<Rigidbody>().useGravity = false;
+        enemyCard.GetComponent<Collider>().enabled = false;
         //Debug.Log("Enemy Plays: " + enemyCard.name);
 
         //enemyAttackColour = enemyCardToPlay.card.attackColour;
@@ -270,7 +280,7 @@ public class GameManager : GameBehaviour<GameManager>
     public IEnumerator BattlePhase(CardObject _playerCard)
     {
         CombatPosition(_playerCard, enemyCard);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
 
         PlayerAttackCheck(_playerCard);
         yield return new WaitForSeconds(1f);
@@ -285,11 +295,13 @@ public class GameManager : GameBehaviour<GameManager>
     {
         _playerCard.transform.DOMove(PCCombatSpot, 1, false);
         _playerCard.transform.DORotate(new Vector3(0, -180, 0), 1);
-        _playerCard.transform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 1);
+        _playerCard.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 1);
+        _playerCard.transform.DORotate(new Vector3(-20, -180, 0), 1);
 
         _enemyCard.transform.DOMove(ECCombatSpot, 1, false);
         _enemyCard.transform.DORotate(new Vector3(0, -180, 0), 1);
-        _enemyCard.transform.DOScale(new Vector3(0.3f, 0.3f, 0.3f), 1);
+        _enemyCard.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 1);
+        _enemyCard.transform.DORotate(new Vector3(-20, -180, 0), 1);
     }
 
     //public void BattlePhase(CardObject _playerCard)
@@ -344,6 +356,7 @@ public class GameManager : GameBehaviour<GameManager>
     {
         WhooshSound();
         card.transform.DOMoveX(movePos.x, .2f, false);
+        
         yield return new WaitForSeconds(0.2f);
         sparks.Play();
         card.transform.DOMoveX(startPos.x, .2f, false);
@@ -397,25 +410,25 @@ public class GameManager : GameBehaviour<GameManager>
             return;
         }
 
-        if (_cardPlayed.name == "Temperance")
-        {
-            for (int c = 0; c < _cardPlayed.attackColours.Length; c++)
-            {
-                if (_cardPlayed.attackColours[c].ToString() != "None")
-                {
-                    if (_cardPlayed.attackColours[c] != _opponentCard.attackColours[c])
-                    {
-                        temperanceCounter += 1;
-                    }
-                }
-            }
-            if (temperanceCounter == 3)
-            {
-                Success(target, _cardPlayed.effectAmount, _cardPlayed.healAmount);
-                temperanceCounter = 0;
-                return;
-            }
-        }
+        //if (_cardPlayed.name == "Temperance")
+        //{
+        //    for (int c = 0; c < _cardPlayed.attackColours.Length; c++)
+        //    {
+        //        if (_cardPlayed.attackColours[c].ToString() != "None")
+        //        {
+        //            if (_cardPlayed.attackColours[c] != _opponentCard.attackColours[c])
+        //            {
+        //                temperanceCounter += 1;
+        //            }
+        //        }
+        //    }
+        //    if (temperanceCounter == 3)
+        //    {
+        //        Success(target, _cardPlayed.effectAmount, _cardPlayed.healAmount);
+        //        temperanceCounter = 0;
+        //        return;
+        //    }
+        //}
         for (int i = 0; i < _cardPlayed.attackColours.Length; i++)
         {
             if (_cardPlayed.attackColours[i].ToString() != "None")

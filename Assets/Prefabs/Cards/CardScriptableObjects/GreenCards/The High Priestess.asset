@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The High Priestess
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000300000000000000
-  cardEffect: heal 6 hp on block
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Heal 6 health if a block succeeds.
   damageAmount: 0
   healAmount: 6
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

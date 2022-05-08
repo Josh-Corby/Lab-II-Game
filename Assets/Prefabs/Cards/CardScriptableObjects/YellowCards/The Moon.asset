@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Moon
   attackColours: 00000000000000000000000000000000
   defenseColours: 01000000020000000000000000000000
-  cardEffect: heal 3 hp on block
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Heal 3 health if a block succeeds.
   damageAmount: 0
   healAmount: 3
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}

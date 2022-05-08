@@ -16,10 +16,13 @@ public class UIManager : GameBehaviour<UIManager>
     public TMP_Text EnemyHealthChange;
 
     [Header("Canvas Objects")]
-    public Canvas GameCanvas;
     public Canvas TitleScreen;
+    public Canvas GameCanvas;
+    public GameObject MenuScreen;
     public GameObject GameOverPanel;
     public TMP_Text victoryText;
+    public GameObject HelpPanel1;
+    public GameObject HelpPanel2;
 
     [Header("Audio")]
     public AudioSource SFX;
@@ -27,22 +30,26 @@ public class UIManager : GameBehaviour<UIManager>
     public AudioClip victorySound;
     private void Start()
     {
-        Time.timeScale = 0f;
         TitleScreen.enabled = true;
+        Time.timeScale = 0f;
+        MenuScreen.SetActive(true);
         GameCanvas.enabled = false;
         
         GameOverPanel.SetActive(false);
-
+        HelpPanel1.SetActive(false);
+        HelpPanel2.SetActive(false);
     }
 
     public void StartGame()
     {
         TitleScreen.enabled = false;
+        MenuScreen.SetActive(false);
         GameCanvas.enabled = true;
         Time.timeScale = 1f;
         _GM.StartGame();
         UpdatePlayerHP(_GM.playerHealth);
         UpdateEnemyHP(_GM.enemyHealth);
+        
     }
 
     public void UpdateHP(string target, int targetHP)
@@ -73,6 +80,23 @@ public class UIManager : GameBehaviour<UIManager>
         EnemyHP.text = targetHP.ToString();
     }
 
+    public void ToggleHelpPanel1()
+    {
+        HelpPanel1.SetActive(true);
+        MenuScreen.SetActive(false);
+    }
+
+    public void ToggleHelpPanel2()
+    {
+        HelpPanel1.SetActive(false);
+        HelpPanel2.SetActive(true);
+    }
+
+    public void CloseHelpPanel2()
+    {
+        HelpPanel2.SetActive(false);
+        MenuScreen.SetActive(true);
+    }
     //public void HealthChangeText(string target, string type, int value)
     //{
     //    if(type == "Attack")
@@ -89,7 +113,7 @@ public class UIManager : GameBehaviour<UIManager>
     //            EnemyHealthChange.text = value.ToString();
     //        }
     //    }
-        
+
     //    if(type == "Heal")
     //    {
 

@@ -20,8 +20,8 @@ MonoBehaviour:
   cardName: The Devil
   attackColours: 01000000000000000000000000000000
   defenseColours: 00000000000000000300000000000000
-  cardEffect: 3 damage on hit, ignore armour
-  damageAmount: 3
+  colourSpecificColour: 
+  effectAmount: 0
+  cardEffect: Deal 2 damage if an attack succeeds. Ignore armour.
+  damageAmount: 2
   healAmount: 0
-  frontImage: {fileID: 0}
-  backImage: {fileID: 0}
