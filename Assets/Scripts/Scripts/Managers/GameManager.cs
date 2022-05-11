@@ -74,12 +74,15 @@ public class GameManager : GameBehaviour<GameManager>
 
     public void StartGame()
     {
+        //update deck count ui
         _UI.UpdateDeckCount(PlayerDeck.Count);
+        //set player and enemy health and update respective ui
         playerHealth = 30;
         playerHealthBar.SetMaxHealth(playerHealth);
         enemyHealth = 30;
         enemyHealthBar.SetMaxHealth(enemyHealth);
 
+        //start the game by dealing cards
         StartCoroutine(DealCards());
     }
 
@@ -109,10 +112,6 @@ public class GameManager : GameBehaviour<GameManager>
                 //fetch the values of the cards in another function. (waiting one frame so the values that need to be found exist)
                 StartCoroutine(CardSetup(playerCard, enemyCard));
 
-                //enemyCard = EnemyDealtCards[i].GetComponent<CardObject>();
-                //Debug.Log(EnemyDealtCards[i].GetComponent<CardObject>().cardColour);
-                //Debug.Log(EnemyDealtCards[i].GetComponent<CardObject>().cardEffect);
-                //Debug.Log(EnemyCardColours[i].color);
                 yield return new WaitForSeconds(0.05f);
             }
         }
@@ -225,6 +224,7 @@ public class GameManager : GameBehaviour<GameManager>
         yield return new WaitForSeconds(1f);
         PlaceSound();
 
+        //Choose a random enemy card to be played and change its transforms
         int rand = Random.Range(1, 3);
         enemyCard = EnemyDealtCards[rand].GetComponent<CardObject>();
         enemyCard.transform.position = _ECS.transform.position;
@@ -279,18 +279,22 @@ public class GameManager : GameBehaviour<GameManager>
     //base function that starts the process of the battle phase
     public IEnumerator BattlePhase(CardObject _playerCard)
     {
+        //Move player and enemy cards into the combat positions
         CombatPosition(_playerCard, enemyCard);
         yield return new WaitForSeconds(1.5f);
 
+        //Check values of player card
         PlayerAttackCheck(_playerCard);
         yield return new WaitForSeconds(1f);
 
+        //Check values of enemy card
         EnemyAttackCheck(_playerCard);
         yield return new WaitForSeconds(1f);
 
         StartCoroutine(ClearCards());
     }
 
+    //Move, rotate, and scale player and enemy card to combat positions
     public void CombatPosition(CardObject _playerCard, CardObject _enemyCard)
     {
         _playerCard.transform.DOMove(PCCombatSpot, 1, false);
@@ -304,6 +308,7 @@ public class GameManager : GameBehaviour<GameManager>
         _enemyCard.transform.DORotate(new Vector3(-20, -180, 0), 1);
     }
 
+    /*
     //public void BattlePhase(CardObject _playerCard)
     //{
     //    PlayerAttackCheck(_playerCard);
@@ -315,9 +320,9 @@ public class GameManager : GameBehaviour<GameManager>
     //    Attack(playerDamage, playerAttackColours, enemyDefenseColours, "Enemy", enemyHealth);
     //    Attack(enemyDamage, enemyAttackColours, playerDefenseColours, "Player", playerHealth);
     //}
+    */
 
-    //check if the player card is an attacking card or a defending card and run the respective function
-
+    //Check if the player card is an attacking or a defending card and run the respective function
     public void PlayerAttackCheck(CardObject _playerCard)
     {
         
@@ -335,6 +340,7 @@ public class GameManager : GameBehaviour<GameManager>
             
     }
 
+    //Check if the enemy card is an attacking or defending card and run the respective function
     public void EnemyAttackCheck(CardObject _playerCard)
     {
         
@@ -352,6 +358,7 @@ public class GameManager : GameBehaviour<GameManager>
             
     }
 
+    //Function for animation of card hitting opponent card in combat
     IEnumerator CardAnimation(CardObject card, Vector3 startPos, Vector3 movePos, ParticleSystem sparks)
     {
         WhooshSound();
@@ -401,34 +408,18 @@ public class GameManager : GameBehaviour<GameManager>
     //        Defend(enemyCard, _playerCard, "Player");
     //}
 
+    //If the card is an attacking card, check what type of attack it has
     public void Attack(CardObject _cardPlayed, CardObject _opponentCard, string target)
     {
 
+        //If card is armour piercing run attack hit function
         if (_cardPlayed.attackType == attackType.pierce)
         {
             Success(target, _cardPlayed.damageAmount, _cardPlayed.healAmount);
             return;
         }
+       
 
-        //if (_cardPlayed.name == "Temperance")
-        //{
-        //    for (int c = 0; c < _cardPlayed.attackColours.Length; c++)
-        //    {
-        //        if (_cardPlayed.attackColours[c].ToString() != "None")
-        //        {
-        //            if (_cardPlayed.attackColours[c] != _opponentCard.attackColours[c])
-        //            {
-        //                temperanceCounter += 1;
-        //            }
-        //        }
-        //    }
-        //    if (temperanceCounter == 3)
-        //    {
-        //        Success(target, _cardPlayed.effectAmount, _cardPlayed.healAmount);
-        //        temperanceCounter = 0;
-        //        return;
-        //    }
-        //}
         for (int i = 0; i < _cardPlayed.attackColours.Length; i++)
         {
             if (_cardPlayed.attackColours[i].ToString() != "None")
@@ -449,6 +440,7 @@ public class GameManager : GameBehaviour<GameManager>
                     }
                 }
 
+                //Standard check for if attack has not been blocked
                 if (_cardPlayed.attackColours[i] != _opponentCard.defenseColours[i])
                 {
 
@@ -464,12 +456,11 @@ public class GameManager : GameBehaviour<GameManager>
 
         for (int i = 0; i < 4; i++)
         {
-            //check if block succeeds
+            //check if block succeeds, check what kind of card it is, and run respective functions
             if (_cardPlayed.defenseColours[i].ToString() != "None")
             {         
                 if (_cardPlayed.defenseColours[i] == _opponentCard.attackColours[i])
                 {
-                    Debug.Log("block successful");
                     if (_cardPlayed.attackType == attackType.normal)
                     {
                         if (_cardPlayed.effectType == effectType.Multi)
@@ -502,6 +493,7 @@ public class GameManager : GameBehaviour<GameManager>
         }
     }
 
+    //Function for dealing damage, healing, and updating Ui's
     public void Success(string target, int damage, int heal)
     {
         if (target == "Player")
@@ -510,9 +502,11 @@ public class GameManager : GameBehaviour<GameManager>
             {
                 SFX.clip = damageSound;
                 SFX.Play();
+                //Subtract player health by damage amount of enemy card and update the UI
                 playerHealth -= damage;
                 playerHealthBar.SetHealth(playerHealth);
                 _UI.UpdateHP("Player", playerHealth);
+                //Check if player is out of health and end the game if so
                 if (playerHealth <= 0)
                     StartCoroutine(_UI.GameOver("Enemy"));         
             }
@@ -521,6 +515,7 @@ public class GameManager : GameBehaviour<GameManager>
             {
                 SFX.clip = healSound;
                 SFX.Play();
+                //Add to enemy health by heal amount of enemy card and update the UI. Keep the max health as 30
                 enemyHealth += heal;
                 if (enemyHealth >= 30)
                     enemyHealth = 30;
@@ -535,19 +530,21 @@ public class GameManager : GameBehaviour<GameManager>
             {
                 SFX.clip = damageSound;
                 SFX.Play();
+                //Subtract enemy health by damage amount of player card and update the UI
                 enemyHealth -= damage;
                 enemyHealthBar.SetHealth(enemyHealth);
                 _UI.UpdateHP("Enemy", enemyHealth);
+                //Check if enemy is out of health and end the game if so
                 if (enemyHealth <= 0)
                     StartCoroutine(_UI.GameOver("Player"));
             }
             
             
-
             if (heal != 0)
             {
                 SFX.clip = healSound;
                 SFX.Play();
+                //Add to player health by heal amount of player card and update the UI. Keep the max health as 30
                 playerHealth += heal;
                 playerHealthBar.SetHealth(playerHealth);
                 if (playerHealth >= 30)
@@ -556,6 +553,7 @@ public class GameManager : GameBehaviour<GameManager>
             }
         }
     }
+    /*
     //public void Success(string target, int damage, int heal)
     //{
     //    if (damage != 0)
@@ -622,7 +620,9 @@ public class GameManager : GameBehaviour<GameManager>
     //        SetHealth("Enemy");
     //    }
     //}
+    */
 
+    //Function for sending health values to UI manager for UI to be updated
     void SetHealth(string target)
     {
         if (target == "Player")
@@ -641,18 +641,21 @@ public class GameManager : GameBehaviour<GameManager>
     #endregion
 
     #region Audio Functions
+    //Sound for when mouse hovers over player cards
     public void HoverSound()
     {
         SFX.clip = hoverSound;
         SFX.Play();
     }
 
+    //Sound for when a card is played
     public void PlaceSound()
     {
         SFX.clip = placeCard;
         SFX.Play();
     }
 
+    //Sound for when an attack or defend fails
     public void WhooshSound()
     {
         SFX.clip = whooshSound;

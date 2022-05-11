@@ -28,6 +28,8 @@ public class UIManager : GameBehaviour<UIManager>
     public AudioSource SFX;
     public AudioClip gameOverSound;
     public AudioClip victorySound;
+
+    //Enabling and disabling relevant canvases and panels
     private void Start()
     {
         TitleScreen.enabled = true;
@@ -40,18 +42,24 @@ public class UIManager : GameBehaviour<UIManager>
         HelpPanel2.SetActive(false);
     }
 
+    //Enabling and disabling relevant canvases and panels
     public void StartGame()
     {
         TitleScreen.enabled = false;
         MenuScreen.SetActive(false);
         GameCanvas.enabled = true;
+        //Set timescale to 1;
         Time.timeScale = 1f;
+        //Tell the game manager to start the game
         _GM.StartGame();
+
+        //Update health UI for player and enemy
         UpdatePlayerHP(_GM.playerHealth);
         UpdateEnemyHP(_GM.enemyHealth);
         
     }
 
+    //Send values recieved from game manager to functions that update health UI
     public void UpdateHP(string target, int targetHP)
     {
         if (target == "Player")
@@ -64,17 +72,20 @@ public class UIManager : GameBehaviour<UIManager>
         }
     }
 
+    //Update the UI of cards left in deck
     public void UpdateDeckCount(int count)
     {
         PlayerDeckCount.text = "Cards left: " + count.ToString();
         EnemyDeckCount.text = "Cards left: " + count.ToString();
     }
 
+    //Update player health
     public void UpdatePlayerHP(int targetHP)
     {
         PlayerHP.text =targetHP.ToString();
     }
 
+    //Update enemy health
     public void UpdateEnemyHP(int targetHP)
     {
         EnemyHP.text = targetHP.ToString();
@@ -97,6 +108,7 @@ public class UIManager : GameBehaviour<UIManager>
         HelpPanel2.SetActive(false);
         MenuScreen.SetActive(true);
     }
+    /*
     //public void HealthChangeText(string target, string type, int value)
     //{
     //    if(type == "Attack")
@@ -137,7 +149,10 @@ public class UIManager : GameBehaviour<UIManager>
     //        SFX.Play();
     //    }
     //}
+    */
+    
 
+    //Turn on game over canvas saying who won depending on values recieved from game manager
     public IEnumerator GameOver(string winner)
     {
         yield return new WaitForSeconds(1f);

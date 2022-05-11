@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+//Base colour of cards
 public enum cardColour
 {
     None,
@@ -12,17 +13,21 @@ public enum cardColour
     Blue
 }
 
+//Type of card
 public enum type
 {
     Attack,
     Defend
 }
+
+//What kind of effect the card has
 public enum effectType
 {
     Single,
     Multi,
 }
 
+//What kind of attack/defend the card has
 public enum attackType
 {
     normal,
